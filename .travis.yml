@@ -1,0 +1,38 @@
+language: node_js
+
+node_js:
+  - "12"
+
+os:
+  - linux
+
+sudo: false
+
+rvm:
+  - 2.2.0
+
+cache:
+    npm: false
+    directories:
+        - $HOME/.npm
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=432186dd0baa8f312e740dca10669bb8cb301eb39e9c8593ba65ca309eba6e83
+
+install:
+  - npm install  
+  - npm install jasmine-node
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - npm run coverage                    
+
+after_script:
+  - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
+  - ./cc-test-reporter upload-coverage
+
