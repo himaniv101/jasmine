@@ -10,7 +10,7 @@ const util = require('../helper/util')
 const excel = require('exceljs');
 const nodeMailer = require('nodemailer');
 const alert = require('alert-node');
-const app = require('../server') 
+// const app = require('../server') 
 const multer = require('multer');
 const allQueries = require('../helper/queries/hospitalStaffContQueries');
 
@@ -612,7 +612,7 @@ exports.getReferralDoctor =(req,res,next) =>{
     var searchText = '%'+req.query.searchText+'%'
     var query = null;
     if(req.query.searchText == "null"){
-        query=allQueries.HospitalStaffQueries.getReferralDoctor_searchTxtNull(req,params.end,start);
+        query=allQueries.HospitalStaffQueries.getReferralDoctor_searchTxtNull(req.params.end,start);
     }else{
         query=allQueries.HospitalStaffQueries.getReferralDoctor_NotNull();
     }
@@ -811,7 +811,7 @@ exports.updateStaffProfile =(req,res,next)=>{
 }
 
 exports.getReferralProfile =(req,res,next)=>{
-    sequelize.query(allQueries.HospitalStaffQueries,getReferralProfile_query(),
+    sequelize.query(allQueries.HospitalStaffQueries.getReferralProfile_query(),
      { replacements: { 
         referral_id:req.params.referralId,
      }, type: sequelize.QueryTypes.SELECT }
@@ -1527,7 +1527,7 @@ exports.getReferralDetail=async(req,res,next)=>{
 
     var start = (req.params.start-1)*req.params.end
 
-    var query = allQueries.HospitalStaffQueries.getReferralDetail_query(req,params.end,start);
+    var query = allQueries.HospitalStaffQueries.getReferralDetail_query(req.params.end,start);
 
     var result =await sequelize.query(query,
         { replacements: { 
