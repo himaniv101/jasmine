@@ -63,5 +63,14 @@ module.exports = {
             error,
             success
         }
-    }
+    },
+    validationFails: (message = 'validation fail', response = [], status = 200, error = true, success = false) => {
+        return {
+            message,
+            response,
+            status,
+            error,
+            success
+        }
+    },
 }

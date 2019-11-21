@@ -7,7 +7,27 @@ const queries = require('../helper/queries')
 const mapper = require('../mapper/mapper')
 const excel = require('exceljs');
 const enumConst = require('../helper/enum')
-const allQueries = require('../helper/queries/patientContQueries')
+const allQueries = require('../helper/queries/patientContQueries');
+let Validator = require('validatorjs');
+const maternal_model = require('../sequelize');
+
+
+const patient_model = require('../sequelize');
+const patient_level_model = require('../sequelize');
+const basic_model = require('../sequelize');
+const general_model = require('../sequelize');
+const baby_appear_model = require('../sequelize');
+const baby_resp_model = require('../sequelize');
+const baby_cv_model = require('../sequelize');
+const baby_cns_model = require('../sequelize');
+const baby_git_model = require('../sequelize');
+const baby_final_model = require('../sequelize');
+const baby_antibiotic_model = require('../sequelize');
+const baby_investigation_model = require('../sequelize');
+const bcrypt = require('bcrypt');
+const res_help = require('../helper/res');
+
+
 
 exports.updateBabyProfileByStudyId = (req, res, next) => {
 
@@ -201,7 +221,7 @@ exports.getBabyCVModel = (req, res, next) => {
   var hospital_id = req.params.hospitalId
   var reading = req.params.readingId
   let query = allQueries.PatientContQueries.getBabyCVModel_query();
-  
+
   sequelize.query(query,
     {
       replacements: {
@@ -368,7 +388,7 @@ exports.searchReadingIdByStudyIdAndMrn = (req, res, next) => {
     where: {
       baby_medical_record_number: id,
       hospital_id: hospitalId,
-      hospital_branch_id:req.params.hospitalBranchId
+      hospital_branch_id: req.params.hospitalBranchId
     }
   }).then(result => {
 
@@ -1407,8 +1427,8 @@ exports.getBabyMedicalRecord = async (req, res, next) => {
 
     result.forEach((data, index) => {
       if (data.updated_by != null) {
-        
-        
+
+
         let mquery = allQueries.PatientContQueries.getBabyMedicalRecord_query();
         sequelize.query(mquery,
           {
@@ -1417,56 +1437,56 @@ exports.getBabyMedicalRecord = async (req, res, next) => {
             }, type: sequelize.QueryTypes.SELECT
           }
         ).then(uResult => {
-          if(uResult.length>0){
-  
-    if(uResult[0].user_type_id == 3){
+          if (uResult.length > 0) {
 
-      sequelize.query(`SELECT * FROM m_hospitals_branches WHERE user_id =:user_id`,
-        {
-          replacements: {
-            user_id: data.updated_by,
-         }, type: sequelize.QueryTypes.SELECT
-       }
-      ).then(hbResult => {
-       
-       if(hbResult.length>0){ 
-         data.updated_by = hbResult[0].branch_name
-       }
-     })
-    }else if(uResult[0].user_type_id == 2){
-      sequelize.query(`SELECT m_hospitals_branches.branch_name FROM m_hospitals JOIN m_hospitals_branches ON m_hospitals_branches.hospital_id = m_hospitals.hospital_id WHERE m_hospitals.user_id=:user_id AND  m_hospitals_branches.hospital_branch_id=:hospital_branch_id`,
-      {
-        replacements: {
-          user_id: data.updated_by,
-          hospital_branch_id:hospital_branch_id,
-       }, type: sequelize.QueryTypes.SELECT
-     }
-    ).then(hbResult => {
-     
-     if(hbResult.length>0){ 
-       data.updated_by = hbResult[0].branch_name
-     }
-      })
-    }
-    else if(uResult[0].user_type_id == 4){
-      sequelize.query(`SELECT  CONCAT(m_staffs.first_name, ' ' ,m_staffs.last_name )  AS name  FROM m_staffs
+            if (uResult[0].user_type_id == 3) {
+
+              sequelize.query(`SELECT * FROM m_hospitals_branches WHERE user_id =:user_id`,
+                {
+                  replacements: {
+                    user_id: data.updated_by,
+                  }, type: sequelize.QueryTypes.SELECT
+                }
+              ).then(hbResult => {
+
+                if (hbResult.length > 0) {
+                  data.updated_by = hbResult[0].branch_name
+                }
+              })
+            } else if (uResult[0].user_type_id == 2) {
+              sequelize.query(`SELECT m_hospitals_branches.branch_name FROM m_hospitals JOIN m_hospitals_branches ON m_hospitals_branches.hospital_id = m_hospitals.hospital_id WHERE m_hospitals.user_id=:user_id AND  m_hospitals_branches.hospital_branch_id=:hospital_branch_id`,
+                {
+                  replacements: {
+                    user_id: data.updated_by,
+                    hospital_branch_id: hospital_branch_id,
+                  }, type: sequelize.QueryTypes.SELECT
+                }
+              ).then(hbResult => {
+
+                if (hbResult.length > 0) {
+                  data.updated_by = hbResult[0].branch_name
+                }
+              })
+            }
+            else if (uResult[0].user_type_id == 4) {
+              sequelize.query(`SELECT  CONCAT(m_staffs.first_name, ' ' ,m_staffs.last_name )  AS name  FROM m_staffs
       WHERE m_staffs.user_id =:user_id`,
-        {
-          replacements: {
-            user_id: data.updated_by,
-         }, type: sequelize.QueryTypes.SELECT
-       }
-      ).then(sResult => {
-       if(sResult.length>0){
-         data.updated_by = sResult[0].name
-       }
-     })
-    }
-   }
-})
+                {
+                  replacements: {
+                    user_id: data.updated_by,
+                  }, type: sequelize.QueryTypes.SELECT
+                }
+              ).then(sResult => {
+                if (sResult.length > 0) {
+                  data.updated_by = sResult[0].name
+                }
+              })
+            }
+          }
+        })
+      }
+    })
   }
-})
-}
 
   result.forEach(async (data, index) => {
     var babyAppear = await pReadingModels.baby_appear_model.findAll({
@@ -1478,10 +1498,10 @@ exports.getBabyMedicalRecord = async (req, res, next) => {
       ],
       limit: 1
     })
-    if(babyAppear.length > 0){
-    data.reading = babyAppear[0].reading
-    }else{
-    data.reading = null
+    if (babyAppear.length > 0) {
+      data.reading = babyAppear[0].reading
+    } else {
+      data.reading = null
     }
   })
 
@@ -1542,17 +1562,17 @@ exports.updateBabyMedicalRecord = (req, res, next) => {
 }
 
 
-exports.babyMedicalRecordCount = async(req, res, next) => {
+exports.babyMedicalRecordCount = async (req, res, next) => {
   let searchText = '%' + req.query.searchText + '%';
   var isStaff = eval(req.params.isStaff);
   var staffId = req.params.staffId;
   let query = null;
-  if(req.query.searchText=="null"){
+  if (req.query.searchText == "null") {
     query = allQueries.PatientContQueries.babyMedicalRecordCount_searchTextNull(isStaff);
   }
   else {
     query = allQueries.PatientContQueries.babyMedicalRecordCount_searchText(isStaff);
-   }
+  }
   var result = await sequelize.query(query,
     {
       replacements: {
@@ -1563,26 +1583,26 @@ exports.babyMedicalRecordCount = async(req, res, next) => {
       }, type: sequelize.QueryTypes.SELECT
     }
   )
-  
 
-  var data=result[0]['total'];
-  res.json(responseHelper.success(constant.success, { medical_record_count: data}))
-  
-   //pReadingModels.basic_model
-   
-    // .findAndCountAll({
-    //   where: {
-    //     hospital_id: req .params.hospitalId,
-    //     hospital_branch_id: req.params.hospitalBranchId,
-    //     deleted_flag: 0
-    //   }
-    // })
-      //.then(result => {
-    //  res.json(responseHelper.success(constant.success, { medical_record_count: result.count }))
-  
-    // .catch(err => {
-    //   res.json(responseHelper.serveError(constant.error_msg, err))
-    // })
+
+  var data = result[0]['total'];
+  res.json(responseHelper.success(constant.success, { medical_record_count: data }))
+
+  //pReadingModels.basic_model
+
+  // .findAndCountAll({
+  //   where: {
+  //     hospital_id: req .params.hospitalId,
+  //     hospital_branch_id: req.params.hospitalBranchId,
+  //     deleted_flag: 0
+  //   }
+  // })
+  //.then(result => {
+  //  res.json(responseHelper.success(constant.success, { medical_record_count: result.count }))
+
+  // .catch(err => {
+  //   res.json(responseHelper.serveError(constant.error_msg, err))
+  // })
 }
 exports.scoreGeneratedReport = (req, res, next) => {
   let query = allQueries.PatientContQueries.scoreGeneratedReport_query(req.params.studyId, req.params.reading);
@@ -1841,52 +1861,431 @@ exports.scoreGeneratedReport = (req, res, next) => {
     })
 }
 
-exports.getGeneratedScrore =(req,res,next)=>{
+exports.getGeneratedScrore = (req, res, next) => {
 
-var score ={
-  "prediction_score":"",
-  "positive_sepsis":null,
-  "negative-sepsis":null,
-  "meningtis":null,
-  "sensitivity":" ",
-  "specificity":" ",
-  "accuracy":" "
-}
-
-var query =`SELECT TRUNCATE(sepsis_score*100,2) as sepsis_score FROM vw_get_generated_score WHERE baby_medical_record_number =`+req.params.bmrn+` AND reading =`+`'`+req.params.reading+`'`
-
-var squery =`SELECT * FROM  sepsis_score_metrics `
-
-sequelize.query(query,
-  {
-    type: sequelize.QueryTypes.SELECT
+  var score = {
+    "prediction_score": "",
+    "positive_sepsis": null,
+    "negative-sepsis": null,
+    "meningtis": null,
+    "sensitivity": " ",
+    "specificity": " ",
+    "accuracy": " "
   }
-).then(result=>{
 
-if(result.length == 0){
-  res.json(responseHelper.notFound(constant.score_message))
-}else{
-  score.prediction_score = result[0].sepsis_score 
+  var query = `SELECT TRUNCATE(sepsis_score*100,2) as sepsis_score FROM vw_get_generated_score WHERE baby_medical_record_number =` + req.params.bmrn + ` AND reading =` + `'` + req.params.reading + `'`
 
-  sequelize.query(squery,
+  var squery = `SELECT * FROM  sepsis_score_metrics `
+
+  sequelize.query(query,
     {
       type: sequelize.QueryTypes.SELECT
     }
-  ).then(sResult=>{
-    
-    sResult.forEach((data,index)=>{
-     if(data.Metrics === "Accuracy"){
-      score.accuracy= data.Score *100
-     }else if(data.Metrics === "Specificity"){
-      score.specificity= data.Score*100
-      }else if(data.Metrics === "Sensitivity"){
-      score.sensitivity= data.Score*100
-     }
+  ).then(result => {
+
+    if (result.length == 0) {
+      res.json(responseHelper.notFound(constant.score_message))
+    } else {
+      score.prediction_score = result[0].sepsis_score
+
+      sequelize.query(squery,
+        {
+          type: sequelize.QueryTypes.SELECT
+        }
+      ).then(sResult => {
+
+        sResult.forEach((data, index) => {
+          if (data.Metrics === "Accuracy") {
+            score.accuracy = data.Score * 100
+          } else if (data.Metrics === "Specificity") {
+            score.specificity = data.Score * 100
+          } else if (data.Metrics === "Sensitivity") {
+            score.sensitivity = data.Score * 100
+          }
+        })
+        res.json(responseHelper.success(constant.success, score))
+      })
+    }
+  }).catch(err => {
+    res.json(responseHelper.serveError(constant.error_msg, err))
+  })
+}
+
+
+
+
+exports.patientSignup = (req, res, next) => {
+  let isExists = (schmea, col_name_text, col_value, cb) => {
+    const whereObj = {}
+    whereObj[col_name_text] = col_value;
+    schmea.findOne({
+      where: whereObj,
     })
-      res.json(responseHelper.success(constant.success, score))
-    })
+      .then(response => {
+        if (response != null) {
+          cb(true, response);
+        } else {
+          cb(false, []);
+        }
+      }).catch(err => {
+        cb(false, [])
+      });
   }
-}).catch(err => {
-  res.json(responseHelper.serveError(constant.error_msg, err))
-})
+  const reqData = {
+    patient_first_name: req.body.patient_first_name,
+    patient_last_name: req.body.patient_last_name,
+    phone: req.body.phone,
+    city: req.body.city,
+    state: req.body.state,
+    country: req.body.country
+  };
+
+  let rules = {
+    patient_first_name: 'required',
+    patient_last_name: 'required',
+    phone: 'required',
+    city: 'required',
+    state: 'required',
+    country: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    res.json(responseHelper.validationFails(constant.alreadyExist));
+  }
+  isExists(patient_model, 'phone', reqData.phone, (res_status, response) => {
+    if (res_status) {
+      res.json(res_help.success(constant.patient_alreay_taken_msg, [], constant.username_alreay_taken_status));
+    } else {
+      patient_model.create(reqData).then((response) => {
+        res.json(res_help.success(constant.patient_success, response));
+      });
+    }
+  });
+}
+exports.BabyCvAdd = (req, res, next) => {
+  const reqData = {
+    urine_output: req.body.urine_output,
+    baby_blood_pressure_mean_arterial_bp: req.body.baby_blood_pressure_mean_arterial_bp,
+    baby_blood_pressure_upper_limb: req.body.baby_blood_pressure_upper_limb,
+    baby_blood_pressure_lower_limb: req.body.baby_blood_pressure_lower_limb,
+    capillary_refill: req.body.capillary_refill,
+    capillary_refill_unit: req.body.capillary_refill_unit,
+    low_peripheral_pulse_volume: req.body.low_peripheral_pulse_volume,
+    cool_peripheries: req.body.cool_peripheries,
+    two_d_echo_done: req.body.two_d_echo_done,
+    two_d_echo_done_if_yes: req.body.two_d_echo_done_if_yes,
+    baby_on_ionotropes: req.body.baby_on_ionotropes,
+    heart_rate: req.body.heart_rate,
+    central_line: req.body.central_line,
+    skin_pustules: req.body.skin_pustules,
+    infusion_of_blood_products: req.body.infusion_of_blood_products,
+    study_id: req.body.study_id
+  };
+
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_cv_model.create(reqData).then((response) => {
+    // level_update(req, req.body.patient_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+
+exports.BabyAppearAdd = (req, res, next) => {
+  const reqData = req.body;
+
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_appear_model.create(reqData).then((response) => {
+    //level_update(req, req.body.patient_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+
+exports.BabyRespAdd = (req, res, next) => {
+  const reqData = {
+    groaning: req.body.groaning,
+    grunting: req.body.grunting,
+    stridor: req.body.stridor,
+    retraction: req.body.retraction,
+    fast_breathing: req.body.fast_breathing,
+    oxygen_saturation: req.body.oxygen_saturation,
+    breathing_rate: req.body.breathing_rate,
+    baby_chest_indrawing: req.body.baby_chest_indrawing,
+    x_ray_status_done: req.body.x_ray_status_done,
+    x_ray_result: req.body.x_ray_result,
+    x_ray_status: req.body.x_ray_status,
+    x_ray_diagnosis_any_other: req.body.x_ray_diagnosis_any_other,
+    apnea_status: req.body.apnea_status,
+    apnea_diagnosis: req.body.apnea_diagnosis,
+    baby_respiratory_support: req.body.baby_respiratory_support,
+    baby_respiratory_support_if_yes: req.body.baby_respiratory_support_if_yes,
+    baby_respiratory_support_if_other: req.body.baby_respiratory_support_if_other,
+    study_id: req.body.study_id
+  };
+
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_resp_model.create(reqData).then((response) => {
+    //level_update(req, req.body.patient_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+
+exports.BabyBasicDupAdd = (req, res, next) => {
+  const reqData = {
+    hospital_name: req.body.hospital_name,
+    hospital_branch_name: req.body.hospital_branch_name,
+    hospital_id: req.params.hospital_id,
+    baby_mother_medical_record_number: req.body.baby_mother_medical_record_number,
+    baby_medical_record_number: req.body.baby_medical_record_number,
+
+    is_update: false
+  };
+
+  let rules = {
+    baby_medical_record_number: 'required',
+    baby_mother_medical_record_number: 'required'
+  };
+
+
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  let whereObj = {
+    hospital_name: req.body.hospital_name,
+    'baby_medical_record_number': req.body.baby_medical_record_number
+  };
+  //isExistsWhere(basic_model, whereObj, (status) => {
+  /*if (status) {
+  return res.json(res_help.alreadyExist('This record number already exist.'));
+  } else {*/
+  pReadingModels.basic_model.create(reqData).then((response) => {
+    // level_update(req, req.body.study_id);
+    return res.json(res_help.success(constant.patient_basic_success, response));
+  });
+
+}
+exports.GeneralAddByUid = (req, res, next) => {
+  const reqData = req.body;
+  reqData.active_flag = 1
+  pReadingModels.general_model.findAll({
+    where: {
+      study_id: req.body.study_id
+    }
+  }).then(result => {
+    if (result.length > 0) {
+      res.json(res_help.resourceAlreadyExist(constant.record_already_exist, result));
+    } else {
+      pReadingModels.general_model.create(reqData).then((response) => {
+
+        pReadingModels.patient_model.findOne({
+          where: {
+            study_id: req.body.study_id
+          }
+        }).then(pResult => {
+          pResult.updated_by = req.params.uStaffId
+          pResult.save()
+        })
+        res.json(res_help.success(constant.patient_basic_success, response));
+
+      }).catch((error) => {
+        res.json(res_help.serveError("Internal  server error.", []));
+      })
+    }
+  })
+}
+
+exports.BabyCnsAdd = (req, res, nexy) => {
+  const reqData = req.body;
+  console.clear();
+  console.error(reqData)
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_cns_model.create(reqData).then((response) => {
+    //level_update(req, req.body.study_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+exports.BabyGitAdd = (req, res, next) => {
+  const reqData = req.body;
+  console.clear();
+  console.error(reqData)
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_git_model.create(reqData).then((response) => {
+    //level_update(req, req.body.study_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+exports.BabyInvestAdd = (req, res, next) => {
+  const reqData = req.body;
+  console.clear();
+  console.error(reqData)
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_investigation_model.create(reqData).then((response) => {
+    //level_update(req, req.body.study_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+exports.BabyAntiBioticAdd = (req, res, next) => {
+  const reqData = req.body;
+  console.clear();
+  console.error(reqData)
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_antibiotic_model.create(reqData).then((response) => {
+    //level_update(req, req.body.study_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+exports.BabyFinalAdd = (req, res, next) => {
+  const reqData = req.body;
+  console.clear();
+  console.error(reqData)
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.baby_final_model.create(reqData).then((response) => {
+    //level_update(req, req.body.study_id);
+    return res.json(res_help.success(constant.success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
+}
+exports.BabyGetPatient = (req, res, next) => {
+  pReadingModels.basic_model.findAll({
+    where: {
+      is_update: false,
+      hospital_name: req.body.hospital_name
+    }
+  })
+    .then(patients => {
+      res.json(res_help.success(constant.get_patients_success, patients));
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+}
+exports.GetLevelById = (req, res, next) => {
+  pReadingModels.patient_level_model.findOne({
+    patient_id: req.params.id
+  })
+    .then(level => {
+      res.json(res_help.success(constant.get_level, level));
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+}
+exports.patientLike = (req, res, next) => {
+  const queryStr = "SELECT * FROM patient_basic_infos WHERE (baby_medical_record_number = '" + req.body.like + "' OR id = '" + req.body.like + "' ) AND hospital_id ='" + req.body.hospital_id + "'";
+  sequelize.query(queryStr, {
+    type: sequelize.QueryTypes.SELECT
+  }).then(resp => {
+    if (resp && resp.length > 0) {
+      res.json(res_help.success(constant.success, resp));
+    } else {
+      res.json(res_help.notFound("record not found.", resp));
+    }
+  });
+}
+exports.getPatientById = (req, res, next) => {
+  pReadingModels.basic_model.findAll({
+    where: {
+      patient_id: req.params.id,
+      is_update: false
+    }
+  })
+    .then(resp => {
+      if (resp && resp.length > 0) {
+
+        res.json(res_help.success(constant.success, resp));
+      } else {
+        res.json(res_help.notFound("record not found.", resp));
+      }
+
+    })
+    .catch(err => {
+      res.json(res_help.serveError())
+    });
+}
+exports.MaternalAdd = (req, res, next) => {
+  const reqData = req.body;
+
+  let rules = {
+    study_id: 'required'
+  };
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  pReadingModels.maternal_model.create(reqData).then((response) => {
+    // level_update(req, req.body.study_id);
+    patient_model.findOne({
+      where: {
+        study_id: req.body.study_id
+      }
+    }).then(pResult => {
+      pResult.updated_by = req.params.uStaffId
+      pResult.save()
+    })
+    return res.json(res_help.success(constant.patient_basic_success, response));
+  }).catch((error) => {
+    return res.json(res_help.serveError("Internal  server error.", []));
+  })
 }

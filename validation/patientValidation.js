@@ -347,39 +347,39 @@ switch(method){
       saveValidateBabyInvestigation()
     ]
     };
-    break;
+   // break;
     case 'updateBabyAppearsModel':{
     return updateValidateBabyAppears()
     };
-    break;
+  //  break;
     case 'updateBabyRespModel':{
     return updateValidationBabyResp()
     };
-    break;
+  //  break;
     case 'updateBabyCVModel':{
     return updateValidateBabyCV()
     };
-    break;
+  //  break;
     case 'updateBabyCNSModel':{
     return updateValidateBabyCNS()
     };
-    break;
+  //  break;
     case 'updateBabyGITModel':{
     return updateValidateBabyGIT()
     };
-    break;
+  //  break;
     case 'updateBabyAntibioticModel':{
     return updateValidateBabyAntibiotic()
     };
-    break;
+  //  break;
     case 'updateBabyFinalModel':{
     return updateValidateBabyFinal()
     };
-    break;
+   // break;
     case 'updateBabyInvestigationModel':{
     return updateValidateBabyInvestigation()
     };
-    break;
+  //  break;
   }
 }
 

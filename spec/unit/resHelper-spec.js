@@ -62,4 +62,16 @@ describe('res Helper testing', () => {
         //console.log(result);
         done();
     })
+    it('validationFails test', (done) => {
+        ans = {
+            message: 'validation fail',
+            response: [],
+            status: 404,
+            error: true,
+            success: false
+        }
+        var result = res.validationFails(message = 'validation fail', response = [], status = 200, error = true, success = false);
+        //console.log(result);
+        done();
+    })
 })

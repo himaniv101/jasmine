@@ -2,6 +2,7 @@ const pReadingModels = require('../../sequelize')
 const hospitalController = require('../../controllers/hospitalController')
 const { sequelize } = require('../../sequelize')
 const mapper=require('../../mapper/mapper')
+
 describe('Hospital Controller', () => {
     it('getHospitalProfile function', (done) => {
         var spy = spyOn(sequelize, 'query')
@@ -31,47 +32,7 @@ describe('Hospital Controller', () => {
         })
     });
 
-    // it('getRegisteredRefferal function', (done) => {
-    //     var spy = spyOn(sequelize, 'query')
-    //     var req = {
-    //         body: {
-    //             name: "test"
-    //         },
-    //         params: {
-    //             start: 1,
-    //             end: 10
-    //         },
-    //         query: {
-    //             searchText: "test"
-    //         }
-    //     }
-
-    //     var res = {
-    //         json: () => { }
-    //     }
-    //     var result = Promise.resolve("test")
-    //     var result2 = Promise.resolve({
-    //         for: () => {
-    //             return Promise.resolve("test")
-    //         }
-    //     })
-
-    //    // spy.andReturn(result)
-    //     spy.andReturn(result2)
-
-    //     spy.andReturn(Promise.resolve(result))
-    //     hospitalController.getRegisteredRefferal(req, res, {})
-    //     spy.plan().then((data) => {
-    //         expect(data.length).toBe(4)
-    //         done()
-    //     })
-    //     // spy.plan().then((data) => {
-    //     //     data.for().then((dt) => {
-    //     //         expect(dt).toBe("test")
-    //     //     })
-    //     //     done()
-    //     // })
-    // });
+   
     it('getRegisteredRefferal function', (done) => {
         var spy = spyOn(sequelize,'query')
         var req = {
@@ -262,28 +223,28 @@ describe('Hospital Controller', () => {
         })
     });
    
-    it('updateHospitalProfile function', (done) => {
-        var spy = spyOn(sequelize, 'query')
-        var req = {
-            body: {
-                user_name: "test_user",
-                email_address:'test@email.com',
+    // it('updateHospitalProfile function', (done) => {
+    //     var spy = spyOn(sequelize, 'query')
+    //     var req = {
+    //         body: {
+    //             user_name: "test_user",
+    //             email_address:'test@email.com',
             
 
-            },
-            params: {
-                staffId: 13
-            },
-        }
+    //         },
+    //         params: {
+    //             staffId: 13
+    //         },
+    //     }
 
-        var res = {
-            json: () => { 
-            }
-        }
-        var result = Promise.resolve(req)
-           hospitalController.updateHospitalProfile(req, res, {})
-             done()
-    });
+    //     var res = {
+    //         json: () => { 
+    //         }
+    //     }
+    //     var result = Promise.resolve(req)
+    //        hospitalController.updateHospitalProfile(req, res, {})
+    //          done()
+    // });
     it('updateIsReadFlag function', (done) => {
         var spy = spyOn(pReadingModels.message_model, 'findAll')
         var req = {
@@ -396,9 +357,12 @@ describe('Hospital Controller', () => {
     })
     it("hospitalSignUp test", (done) => {
         var spy = spyOn(pReadingModels.user_model, 'findAll')
+        var spy1=spyOn(pReadingModels.user_role_model,'create')
         var req = {
             body: {
-                name: "test"
+                name: "test",
+                hospital_name:"test",
+                email:"test@maul.com"
             },
             params: {
                 hospitalId: 92,
@@ -415,8 +379,10 @@ describe('Hospital Controller', () => {
         var result = Promise.resolve([{
             "test": "test",
             m_hospitals: {
-                hospital_name: "test"
-            }
+                hospital_name: "test",
+            },
+            email_address:"test@mail.com",
+            user_name:"test123"
         }])
 
         spy.andReturn(result)
@@ -436,7 +402,6 @@ describe('Hospital Controller', () => {
             expect(data.test).toBe("test")
             done()
         })
-
     });
     it("updateHospitalProfile test", (done) => {
         var spy = spyOn(pReadingModels.user_model, 'findAll')
@@ -460,7 +425,12 @@ describe('Hospital Controller', () => {
         var result = Promise.resolve({
             save: () => {
                 return Promise.resolve("test")
-            }
+            },
+            m_hospitals: {
+                hospital_name: "test",
+            },
+            email_address:"test@mail.com",
+            user_name:"test123"
         })
 
         var result2 = Promise.resolve({
@@ -487,8 +457,10 @@ describe('Hospital Controller', () => {
         })
 
     });
+   
     // it('addRole function', (done) => {
     //     var spy = spyOn(sequelize, 'query');
+    //    // var spy1=spyOn(mapper,'hospitalRoleMapper')
     //     var req = {
     //         body: {
     //             name: "test"
@@ -516,4 +488,3 @@ describe('Hospital Controller', () => {
   
    
 })
-

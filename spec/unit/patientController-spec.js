@@ -1,12 +1,16 @@
 const pReadingModels = require('../../sequelize')
 const patientController = require('../../controllers/patientController')
 const { sequelize } = require('../../sequelize')
+let Validator = require('validatorjs');
+const baby_cv_model = require('../../sequelize');
 
-describe('hospitalBranchController', () => {
+
+
+describe('PatientController', () => {
 
     it("updateBabyProfileByStudyId test", (done) => {
         var spy = spyOn(pReadingModels.general_model, 'findAll')
-        var spy2  = spyOn(pReadingModels.patient_model, 'findOne')
+        var spy2 = spyOn(pReadingModels.patient_model, 'findOne')
         var req = {
             body: {
                 name: "test"
@@ -25,8 +29,8 @@ describe('hospitalBranchController', () => {
         }
 
         var result = Promise.resolve([{
-            record_type:"test",
-            save: ()=>{
+            record_type: "test",
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
@@ -36,7 +40,7 @@ describe('hospitalBranchController', () => {
         spy2.andReturn(result2)
         patientController.updateBabyProfileByStudyId(req, res, {})
         spy.plan().then((data) => {
-            data.save().then((dt)=>{
+            data.save().then((dt) => {
                 expect(dt).toBe("test")
                 done()
             })
@@ -44,14 +48,14 @@ describe('hospitalBranchController', () => {
         spy2.plan().then((data) => {
             expect(data).toBe("test")
             done()
-            
+
         })
 
     });
 
     it("updateMotherProfileByStudyId test", (done) => {
         var spy = spyOn(pReadingModels.maternal_model, 'findAll')
-        var spy2  = spyOn(pReadingModels.patient_model, 'findOne')
+        var spy2 = spyOn(pReadingModels.patient_model, 'findOne')
         var req = {
             body: {
                 name: "test"
@@ -70,8 +74,8 @@ describe('hospitalBranchController', () => {
         }
 
         var result = Promise.resolve([{
-            record_type:"test",
-            save: ()=>{
+            record_type: "test",
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
@@ -81,7 +85,7 @@ describe('hospitalBranchController', () => {
         spy2.andReturn(result2)
         patientController.updateMotherProfileByStudyId(req, res, {})
         spy.plan().then((data) => {
-            data.save().then((dt)=>{
+            data.save().then((dt) => {
                 expect(dt).toBe("test")
                 done()
             })
@@ -94,21 +98,21 @@ describe('hospitalBranchController', () => {
 
     it("savePatientModels test", (done) => {
         var spy = spyOn(pReadingModels.patient_model, 'findOne')
-        var spy2  = spyOn(pReadingModels.baby_investigation_model, 'create')
+        var spy2 = spyOn(pReadingModels.baby_investigation_model, 'create')
         var req = {
             "body": {
                 "name": "test",
-                "baby_appears":{
-                    study_id:1
+                "baby_appears": {
+                    study_id: 1
                 },
-                "baby_resp":{
-                    "baby_respiratory_support":'{"test":"test"}'
+                "baby_resp": {
+                    "baby_respiratory_support": '{"test":"test"}'
                 }
             },
             params: {
                 hospitalId: 92,
                 hospitalBranchRoleId: 162,
-                sUserId:123
+                sUserId: 123
             },
             query: {
                 searchText: "test"
@@ -121,7 +125,7 @@ describe('hospitalBranchController', () => {
 
         var result = Promise.resolve(Promise.resolve("test"))
         var result2 = Promise.resolve({
-            "updated_by":555,
+            "updated_by": 555,
         })
 
         spy.andReturn(result2)
@@ -387,8 +391,8 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        var spy2 = spyOn(res,'json')
-        
+        var spy2 = spyOn(res, 'json')
+
         var result = Promise.resolve([])
 
         spy.andReturn(result)
@@ -400,7 +404,7 @@ describe('hospitalBranchController', () => {
         spy.reset()
         spy2.reset()
         result = Promise.resolve([{
-            reading:123
+            reading: 123
         }])
         spy.andReturn(result)
         patientController.getReadingIdByStudyId(req, res, {})
@@ -418,7 +422,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -430,23 +434,23 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123
         }])
 
         spy.andReturn(result)
-        spy2.andReturn(Promise.resolve([1,2,3]))
+        spy2.andReturn(Promise.resolve([1, 2, 3]))
 
         patientController.searchReadingIdByStudyIdAndMrn(req, res, {})
         spy.plan().then((data) => {
             expect(data[0].studyId).toBe(123)
             done()
         })
-        
-        
+
+
     });
 
     it("getPatientModels test", (done) => {
@@ -463,10 +467,10 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162,
-                studyId:123
+                studyId: 123
             },
             query: {
                 searchText: "test"
@@ -476,11 +480,11 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123
         }])
 
         spy.andReturn(result)
@@ -512,7 +516,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -524,19 +528,19 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -547,13 +551,13 @@ describe('hospitalBranchController', () => {
         patientController.updateBabyAppearsModel(req, res, {})
         spy.plan().then((data) => {
             expect(data[0].studyId).toBe(123)
-            data[0].save().then((dt)=>{
+            data[0].save().then((dt) => {
                 expect(dt).toBe("test")
             })
             done()
         })
-        
-        
+
+
     });
 
     it("updateBabyRespModel test", (done) => {
@@ -561,15 +565,15 @@ describe('hospitalBranchController', () => {
         var spy2 = spyOn(pReadingModels.patient_model, 'findOne')
         var req = {
             body: {
-                baby_respiratory_support:'{"test":"test"}',
+                baby_respiratory_support: '{"test":"test"}',
                 name: "test",
-                groaning:"as",
-                save:()=>{
+                groaning: "as",
+                save: () => {
                     return Promise.resolve("test")
                 }
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -581,20 +585,20 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            groaning:"as",
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            groaning: "as",
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -605,7 +609,7 @@ describe('hospitalBranchController', () => {
         patientController.updateBabyRespModel(req, res, {})
         spy.plan().then((data) => {
             expect(data[0].studyId).toBe(123)
-            data[0].save().then((dt)=>{
+            data[0].save().then((dt) => {
                 expect(dt).toBe("test")
             })
             done()
@@ -620,7 +624,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -632,19 +636,19 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -667,7 +671,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -679,19 +683,19 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -714,7 +718,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -726,19 +730,19 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -761,7 +765,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -773,19 +777,19 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -808,7 +812,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -820,19 +824,19 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -855,7 +859,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -867,19 +871,19 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
 
         var result2 = Promise.resolve({
-            updated_by:123,
-            save:()=>{
+            updated_by: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         })
@@ -901,7 +905,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -913,15 +917,15 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([{
-            time_of_reading_hours:null,
-            time_of_reading_minute:null,
-            reading_time:"test",
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            time_of_reading_hours: null,
+            time_of_reading_minute: null,
+            reading_time: "test",
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
@@ -943,7 +947,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -955,7 +959,7 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        
+
         var result = Promise.resolve([])
         var result2 = Promise.resolve(null)
 
@@ -977,11 +981,11 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162,
-                start:0,
-                end:1
+                start: 0,
+                end: 1
             },
             query: {
                 searchText: "test"
@@ -992,18 +996,18 @@ describe('hospitalBranchController', () => {
             json: () => { }
         }
 
-        var resSpy = spyOn(res,'json')
-        
+        var resSpy = spyOn(res, 'json')
+
         var result = [{
-            time_of_reading_hours:null,
-            time_of_reading_minute:null,
-            reading_time:"test",
-            studyId:123,
-            user_type_id:4,
-            updated_by:"test",
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            time_of_reading_hours: null,
+            time_of_reading_minute: null,
+            reading_time: "test",
+            studyId: 123,
+            user_type_id: 4,
+            updated_by: "test",
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve("test")
             }
         }]
@@ -1021,14 +1025,14 @@ describe('hospitalBranchController', () => {
         var req = {
             body: {
                 name: "test",
-                babyName:"test"
+                babyName: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162,
-                start:0,
-                end:1
+                start: 0,
+                end: 1
             },
             query: {
                 searchText: "test"
@@ -1039,28 +1043,28 @@ describe('hospitalBranchController', () => {
             json: () => { }
         }
 
-        var resSpy = spyOn(res,'json')
-        
+        var resSpy = spyOn(res, 'json')
+
         var result = Promise.resolve({
-            time_of_reading_hours:null,
-            time_of_reading_minute:null,
-            reading_time:"test",
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            save:()=>{
+            time_of_reading_hours: null,
+            time_of_reading_minute: null,
+            reading_time: "test",
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            save: () => {
                 return Promise.resolve({
-                    baby_name:"test",
-                    active_flag:1
+                    baby_name: "test",
+                    active_flag: 1
                 })
             }
         })
 
         spy.andReturn(result)
         resSpy.andReturn({})
-        
+
         patientController.updateBabyMedicalRecord(req, res, {})
-        
+
         spy.plan().then((data) => {
             expect(resSpy.wasCalled).toBe(true)
             done()
@@ -1076,7 +1080,7 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
@@ -1088,14 +1092,14 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        var resSpy = spyOn(res,'json')
-        
+        var resSpy = spyOn(res, 'json')
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            total:5,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            total: 5,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
@@ -1114,11 +1118,11 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162,
-                start:0,
-                end:1
+                start: 0,
+                end: 1
             },
             query: {
                 searchText: "test"
@@ -1129,16 +1133,16 @@ describe('hospitalBranchController', () => {
             json: () => { },
             setHeader: () => { },
         }
-        var resSpy = spyOn(res,'setHeader')
-        
+        var resSpy = spyOn(res, 'setHeader')
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            time_of_reading_hours:null,
-            time_of_reading_minute:null,
-            total:5,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            time_of_reading_hours: null,
+            time_of_reading_minute: null,
+            total: 5,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
@@ -1156,11 +1160,11 @@ describe('hospitalBranchController', () => {
                 name: "test"
             },
             params: {
-                id:123,
+                id: 123,
                 hospitalId: 92,
                 hospitalBranchRoleId: 162,
-                start:0,
-                end:1
+                start: 0,
+                end: 1
             },
             query: {
                 searchText: "test"
@@ -1171,16 +1175,16 @@ describe('hospitalBranchController', () => {
             json: () => { },
             setHeader: () => { },
         }
-        var resSpy = spyOn(res,'json')
-        
+        var resSpy = spyOn(res, 'json')
+
         var result = Promise.resolve([{
-            studyId:123,
-            id:123,
-            baby_medical_record_number:123,
-            time_of_reading_hours:null,
-            time_of_reading_minute:null,
-            total:5,
-            save:()=>{
+            studyId: 123,
+            id: 123,
+            baby_medical_record_number: 123,
+            time_of_reading_hours: null,
+            time_of_reading_minute: null,
+            total: 5,
+            save: () => {
                 return Promise.resolve("test")
             }
         }])
@@ -1189,4 +1193,474 @@ describe('hospitalBranchController', () => {
         expect(spy.wasCalled).toBe(true)
         done()
     });
+
+    // it('patientSignup method',(done)=>{
+    //     var schema=pReadingModels.user_model;
+    //     var spy=spyOn(schema,'findOne');
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             phone: "test",
+    //             city: "test",
+    //             state: "test",
+    //             country: "test",
+    //         },
+    //     }
+    //     let rules = {
+    //         patient_first_name: 'required',
+    //         patient_last_name: 'required',
+    //         phone: 'required',
+    //         city: 'required',
+    //         state: 'required',
+    //         country: 'required'
+    //       };
+
+    //     var res = {
+    //         json: () => {  },
+
+    //     }
+    //    // console.log(res.status.);
+    //   //  var resSpy = spyOn(res,'json')
+    //       let validation = new Validator(reqData, rules);
+    //      // patientController.patientSignup(reqData,res,{});
+    //     done();
+
+    // })
+
+
+    it('BabyCvAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_cv_model, 'create');
+        var reqData = {
+            body: {
+                urine_output: "test",
+                baby_blood_pressure_mean_arterial_bp: "test",
+                baby_blood_pressure_upper_limb: "test",
+                baby_blood_pressure_lower_limb: "test",
+                capillary_refill: "test",
+                capillary_refill_unit: "test",
+                low_peripheral_pulse_volume: "test",
+                cool_peripheries: "test",
+                two_d_echo_done: "test",
+                two_d_echo_done_if_yes: "test",
+                baby_on_ionotropes: "test",
+                heart_rate: "test",
+                central_line: "test",
+                skin_pustules: "test",
+                infusion_of_blood_products: "test",
+                study_id: "1234",
+
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+
+        }
+        var result2 = Promise.resolve("test")
+
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyCvAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+            // done()
+
+        })
+        done();
+    })
+    it('BabyAppearAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_appear_model, 'create');
+        var reqData = {
+            body: {
+                patient_first_name: "test",
+                patient_last_name: "test",
+                study_id: "1234"
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyAppearAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('BabyRespAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_resp_model, 'create');
+        var reqData = {
+            body: {
+                urine_output: "test",
+                baby_blood_pressure_mean_arterial_bp: "test",
+                baby_blood_pressure_upper_limb: "test",
+                baby_blood_pressure_lower_limb: "test",
+                capillary_refill: "test",
+                capillary_refill_unit: "test",
+                low_peripheral_pulse_volume: "test",
+                cool_peripheries: "test",
+                two_d_echo_done: "test",
+                two_d_echo_done_if_yes: "test",
+                baby_on_ionotropes: "test",
+                heart_rate: "test",
+                central_line: "test",
+                skin_pustules: "test",
+                infusion_of_blood_products: "test",
+                study_id: "1234",
+
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+
+        }
+        var result2 = Promise.resolve("test")
+
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyRespAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+  
+    it('BabyBasicDupAdd method', (done) => {
+        var spy = spyOn(pReadingModels.basic_model, 'create');
+        var reqData = {
+            body: {
+                hospital_name: "test",
+                hospital_branch_name: "test",
+                baby_mother_medical_record_number: "test",
+                baby_medical_record_number: "test",
+                is_update: false
+            },
+            params:{
+                hospital_id: "test",
+            }
+        }
+        let rules = {
+            baby_medical_record_number: 'required',
+            baby_mother_medical_record_number: 'required'
+            }        
+
+        var res = {
+            json: () => { },
+
+        }
+        var result2 = Promise.resolve("test")
+
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyBasicDupAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('GeneralAddByUid method', (done) => {
+        var spy = spyOn(pReadingModels.general_model, 'findAll');
+        var spy1 = spyOn(pReadingModels.general_model, 'create');
+
+        var reqData = {
+            body: {
+                active_flag:1,
+                study_id:""
+            },
+            params:{
+                hospital_id: "test",
+            }
+        }       
+
+        var res = {
+            json: () => { },
+
+        }
+        var result2 = Promise.resolve("test")
+
+        spy.andReturn(result2)
+      //  let validation = new Validator(reqData, rules);
+        patientController.GeneralAddByUid(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+            expect(data.length).toBe(0)
+            expect(spy1.wasCalled).toBe(true)
+        })
+        done();
+    })
+    it('BabyCnsAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_cns_model, 'create');
+        var reqData = {
+            body: {
+                patient_first_name: "test",
+                patient_last_name: "test",
+                study_id: "1234"
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyCnsAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('BabyGitAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_git_model, 'create');
+        var reqData = {
+            body: {
+                patient_first_name: "test",
+                patient_last_name: "test",
+                study_id: "1234"
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyGitAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('BabyInvestAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_investigation_model, 'create');
+        var reqData = {
+            body: {
+                patient_first_name: "test",
+                patient_last_name: "test",
+                study_id: "1234"
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyInvestAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('BabyAntiBioticAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_antibiotic_model, 'create');
+        var reqData = {
+            body: {
+                patient_first_name: "test",
+                patient_last_name: "test",
+                study_id: "1234"
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyAntiBioticAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('BabyFinalAdd method', (done) => {
+        var spy = spyOn(pReadingModels.baby_final_model, 'create');
+        var reqData = {
+            body: {
+                patient_first_name: "test",
+                patient_last_name: "test",
+                study_id: "1234"
+            },
+        }
+        let rules = {
+            study_id: 'required'
+        };
+
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.BabyFinalAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('BabyGetPatient method', (done) => {
+        var spy = spyOn(pReadingModels.basic_model, 'create');
+        var reqData = {
+            body: {
+                is_update: false,
+                hospital_name:"test"
+            },
+        }
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        patientController.BabyGetPatient(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('GetLevelById method', (done) => {
+        var spy = spyOn(pReadingModels.patient_level_model, 'create');
+        var reqData = {
+            body: {
+                hospital_name:"test"
+            },
+            params:{
+                id:1
+            }
+        }
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        patientController.GetLevelById(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('patientLike method', (done) => {
+        var spy = spyOn(sequelize, 'query');
+        var reqData = {
+            body: {
+                hospital_name:"test",
+                like:"",
+                hospital_id:""
+            },
+            params:{
+                id:1
+            }
+        }
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        patientController.patientLike(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('getPatientById method', (done) => {
+        var spy = spyOn(pReadingModels.basic_model, 'findAll');
+        var reqData = {
+            body: {
+               is_update:false
+            },
+            params:{
+                patient_id:1
+            }
+        }
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        patientController.getPatientById(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+     it('getPatientById method', (done) => {
+        var spy = spyOn(pReadingModels.basic_model, 'findAll');
+        var reqData = {
+            body: {
+               is_update:false
+            },
+            params:{
+                patient_id:1
+            }
+        }
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        patientController.getPatientById(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+        })
+        done();
+    })
+    it('MaternalAdd method', (done) => {
+        var spy = spyOn(pReadingModels.maternal_model, 'create');
+        var spy1=spyOn(pReadingModels.patient_model,'findOne')
+        var reqData = {
+            body: {
+                patient_first_name: "test",
+                patient_last_name: "test",
+                study_id: "1234"
+            },
+            params:{
+                uStaffId:""
+            }
+        }
+        let rules = {
+            study_id: 'required'
+        };
+    
+
+        var res = {
+            json: () => { },
+        }
+        var result2 = Promise.resolve("test")
+        spy.andReturn(result2)
+        let validation = new Validator(reqData, rules);
+        patientController.MaternalAdd(reqData, res, {});
+        spy.plan().then((data) => {
+            expect(data).toBe("test");
+            expect(spy.wasCalled).toBe(true)
+        })
+        done();
+    })
 })

@@ -72,4 +72,15 @@ describe('Patient Controller queries test',()=>{
         expect(queries.PatientContQueries.babyMedicalRecordCount_searchText(1)).toBe(result);
         done();
     })
+    // it('babyMedicalRecordCount_searchTextNull test',(done)=>{
+    //     var result=queries.PatientContQueries.babyMedicalRecordCount_searchTextNull(1);
+    //     expect(queries.PatientContQueries.babyMedicalRecordCount_searchTextNull(1)).toBe(result);
+    //     done();
+    // })
+   
+    it('scoreGeneratedReport_query test',(done)=>{
+        var result=queries.PatientContQueries.scoreGeneratedReport_query(1,101);
+        expect(queries.PatientContQueries.scoreGeneratedReport_query(1,101)).toBe(result);
+        done();
+    })
 })

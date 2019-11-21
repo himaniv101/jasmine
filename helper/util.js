@@ -7,10 +7,10 @@ console.log ('permissionResult :' ,permissionResult)
     switch(permissionId){
         case 1 :result.dataEntry_review_permission=permissionResult.active_flag
                 return result
-        break
+      //  break
         case 2 :result.scoreGenerate=permissionResult.active_flag
                 return result
-        break
+     //   break
     }
 }
 
@@ -22,10 +22,10 @@ exports.getStaffPermissionId =(permission) =>{
     switch(permission){
         case dataEntry_review_permission :
                 return 1
-        break
+      //  break
         case scoreGenerate :
                 return 2
-        break
+    //    break
     }
 }
 
@@ -34,16 +34,16 @@ exports.getRefferalInitiationStatusId =(status) =>{
     switch(status){
         case 'Request Initiation' :
                 return 1
-        break
+     //   break
         case 'Pending Initiation' :
                 return 2
-        break
+     //   break
         case 'Accept Initiation' :
                 return 3
-        break
+      //  break
         case 'Active' :
             return 4
-        break
+     //   break
     }
 }
 
@@ -52,10 +52,10 @@ exports.getRequesterType =(type) =>{
     switch(type){
         case 'Referral Doctor' :
                 return 5
-        break
+     //   break
         case 'Hospital' :
                 return 2
-        break
+     //   break
     }
 }
 
