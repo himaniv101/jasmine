@@ -1195,8 +1195,8 @@ describe('PatientController', () => {
     });
 
     // it('patientSignup method',(done)=>{
-    //     var schema=pReadingModels.user_model;
-    //     var spy=spyOn(schema,'findOne');
+    //     //var schema=pReadingModels.user_model;
+    //  //   var spy=spyOn(schema,'findOne');
     //     var reqData = {
     //         body: {
     //             patient_first_name: "test",
@@ -1223,121 +1223,121 @@ describe('PatientController', () => {
     //    // console.log(res.status.);
     //   //  var resSpy = spyOn(res,'json')
     //       let validation = new Validator(reqData, rules);
-    //      // patientController.patientSignup(reqData,res,{});
+    //        patientController.patientSignup(reqData,res,{});
     //     done();
 
     // })
 
 
-    it('BabyCvAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_cv_model, 'create');
-        var reqData = {
-            body: {
-                urine_output: "test",
-                baby_blood_pressure_mean_arterial_bp: "test",
-                baby_blood_pressure_upper_limb: "test",
-                baby_blood_pressure_lower_limb: "test",
-                capillary_refill: "test",
-                capillary_refill_unit: "test",
-                low_peripheral_pulse_volume: "test",
-                cool_peripheries: "test",
-                two_d_echo_done: "test",
-                two_d_echo_done_if_yes: "test",
-                baby_on_ionotropes: "test",
-                heart_rate: "test",
-                central_line: "test",
-                skin_pustules: "test",
-                infusion_of_blood_products: "test",
-                study_id: "1234",
+    // it('BabyCvAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_cv_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             urine_output: "test",
+    //             baby_blood_pressure_mean_arterial_bp: "test",
+    //             baby_blood_pressure_upper_limb: "test",
+    //             baby_blood_pressure_lower_limb: "test",
+    //             capillary_refill: "test",
+    //             capillary_refill_unit: "test",
+    //             low_peripheral_pulse_volume: "test",
+    //             cool_peripheries: "test",
+    //             two_d_echo_done: "test",
+    //             two_d_echo_done_if_yes: "test",
+    //             baby_on_ionotropes: "test",
+    //             heart_rate: "test",
+    //             central_line: "test",
+    //             skin_pustules: "test",
+    //             infusion_of_blood_products: "test",
+    //             study_id: "1234",
 
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
+    //     var res = {
+    //         json: () => { },
 
-        }
-        var result2 = Promise.resolve("test")
+    //     }
+    //     var result2 = Promise.resolve("test")
 
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyCvAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-            // done()
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyCvAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //         // done()
 
-        })
-        done();
-    })
-    it('BabyAppearAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_appear_model, 'create');
-        var reqData = {
-            body: {
-                patient_first_name: "test",
-                patient_last_name: "test",
-                study_id: "1234"
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    //     })
+    //     done();
+    // })
+    // it('BabyAppearAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_appear_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             study_id: "1234"
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
-        }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyAppearAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
-    it('BabyRespAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_resp_model, 'create');
-        var reqData = {
-            body: {
-                urine_output: "test",
-                baby_blood_pressure_mean_arterial_bp: "test",
-                baby_blood_pressure_upper_limb: "test",
-                baby_blood_pressure_lower_limb: "test",
-                capillary_refill: "test",
-                capillary_refill_unit: "test",
-                low_peripheral_pulse_volume: "test",
-                cool_peripheries: "test",
-                two_d_echo_done: "test",
-                two_d_echo_done_if_yes: "test",
-                baby_on_ionotropes: "test",
-                heart_rate: "test",
-                central_line: "test",
-                skin_pustules: "test",
-                infusion_of_blood_products: "test",
-                study_id: "1234",
+    //     var res = {
+    //         json: () => { },
+    //     }
+    //     var result2 = Promise.resolve("test")
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyAppearAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //     })
+    //     done();
+    // })
+    // it('BabyRespAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_resp_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             urine_output: "test",
+    //             baby_blood_pressure_mean_arterial_bp: "test",
+    //             baby_blood_pressure_upper_limb: "test",
+    //             baby_blood_pressure_lower_limb: "test",
+    //             capillary_refill: "test",
+    //             capillary_refill_unit: "test",
+    //             low_peripheral_pulse_volume: "test",
+    //             cool_peripheries: "test",
+    //             two_d_echo_done: "test",
+    //             two_d_echo_done_if_yes: "test",
+    //             baby_on_ionotropes: "test",
+    //             heart_rate: "test",
+    //             central_line: "test",
+    //             skin_pustules: "test",
+    //             infusion_of_blood_products: "test",
+    //             study_id: "1234",
 
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
+    //     var res = {
+    //         json: () => { },
 
-        }
-        var result2 = Promise.resolve("test")
+    //     }
+    //     var result2 = Promise.resolve("test")
 
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyRespAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyRespAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //     })
+    //     done();
+    // })
   
     it('BabyBasicDupAdd method', (done) => {
         var spy = spyOn(pReadingModels.basic_model, 'create');
@@ -1402,131 +1402,131 @@ describe('PatientController', () => {
         })
         done();
     })
-    it('BabyCnsAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_cns_model, 'create');
-        var reqData = {
-            body: {
-                patient_first_name: "test",
-                patient_last_name: "test",
-                study_id: "1234"
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    // it('BabyCnsAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_cns_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             study_id: "1234"
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
-        }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyCnsAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
-    it('BabyGitAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_git_model, 'create');
-        var reqData = {
-            body: {
-                patient_first_name: "test",
-                patient_last_name: "test",
-                study_id: "1234"
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    //     var res = {
+    //         json: () => { },
+    //     }
+    //     var result2 = Promise.resolve("test")
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyCnsAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //     })
+    //     done();
+    // })
+    // it('BabyGitAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_git_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             study_id: "1234"
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
-        }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyGitAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
-    it('BabyInvestAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_investigation_model, 'create');
-        var reqData = {
-            body: {
-                patient_first_name: "test",
-                patient_last_name: "test",
-                study_id: "1234"
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    //     var res = {
+    //         json: () => { },
+    //     }
+    //     var result2 = Promise.resolve("test")
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyGitAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //     })
+    //     done();
+    // })
+    // it('BabyInvestAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_investigation_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             study_id: "1234"
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
-        }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyInvestAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
-    it('BabyAntiBioticAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_antibiotic_model, 'create');
-        var reqData = {
-            body: {
-                patient_first_name: "test",
-                patient_last_name: "test",
-                study_id: "1234"
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    //     var res = {
+    //         json: () => { },
+    //     }
+    //     var result2 = Promise.resolve("test")
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyInvestAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //     })
+    //     done();
+    // })
+    // it('BabyAntiBioticAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_antibiotic_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             study_id: "1234"
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
-        }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyAntiBioticAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
-    it('BabyFinalAdd method', (done) => {
-        var spy = spyOn(pReadingModels.baby_final_model, 'create');
-        var reqData = {
-            body: {
-                patient_first_name: "test",
-                patient_last_name: "test",
-                study_id: "1234"
-            },
-        }
-        let rules = {
-            study_id: 'required'
-        };
+    //     var res = {
+    //         json: () => { },
+    //     }
+    //     var result2 = Promise.resolve("test")
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyAntiBioticAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //     })
+    //     done();
+    // })
+    // it('BabyFinalAdd method', (done) => {
+    //     var spy = spyOn(pReadingModels.baby_final_model, 'create');
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             study_id: "1234"
+    //         },
+    //     }
+    //     let rules = {
+    //         study_id: 'required'
+    //     };
 
-        var res = {
-            json: () => { },
-        }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        let validation = new Validator(reqData, rules);
-        patientController.BabyFinalAdd(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
+    //     var res = {
+    //         json: () => { },
+    //     }
+    //     var result2 = Promise.resolve("test")
+    //     spy.andReturn(result2)
+    //     let validation = new Validator(reqData, rules);
+    //     patientController.BabyFinalAdd(reqData, res, {});
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //     })
+    //     done();
+    // })
     it('BabyGetPatient method', (done) => {
         var spy = spyOn(pReadingModels.basic_model, 'create');
         var reqData = {

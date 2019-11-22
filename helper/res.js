@@ -73,4 +73,21 @@ module.exports = {
             success
         }
     },
+
+
+
+    noTokenProvided: (message = 'No token provided.', status = 403,auth= false) => {
+        return {
+            message,
+            status,
+            auth
+        }
+    },
+    failedAuthenticationToken: (message = 'Failed to authenticate token', status = 500,auth= false) => {
+        return {
+            message,
+            status,
+            auth
+        }
+    },
 }

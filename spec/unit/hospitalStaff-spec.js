@@ -1,6 +1,8 @@
 const HospitalStaffController = require('../../controllers/hospitalStaffController')
 const pReadingModels = require('../../sequelize')
-const { sequelize } = require('../../sequelize')
+const { sequelize } = require('../../sequelize');
+const multer = require('multer');
+
 
 describe('Hospital Staff Controlloer', () => {
     it('getHospitalStaffRoles method', () => {
@@ -101,6 +103,8 @@ describe('Hospital Staff Controlloer', () => {
     })
     it('addStaff method', () => {
         var spy = spyOn(pReadingModels.user_model, 'findAll');
+        var spy_1 = spyOn(pReadingModels.user_model, 'create');
+        
         var req = {
             body: {
                 contactNumber: '123456789',
@@ -115,18 +119,28 @@ describe('Hospital Staff Controlloer', () => {
             json: () => { }
         }
 
-        var result = Promise.resolve("test")
-
-        spy.andReturn(result)
-        HospitalStaffController.addStaff(req, res, {})
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-            done()
+        var result = Promise.resolve({
+            length:1,
+            find: () => {
+                return Promise.resolve("test")
+            }
+        })
+        var result_1 = Promise.resolve({
+            length:0,
         })
 
+        spy.andReturn(result)
+
+        HospitalStaffController.addStaff(req, res, {})
+        spy.plan().then((data) => {
+            expect(data[0].length).toBeGreaterThan(0)
+            expect(spy_1.wasCalled).toBe(true)
+            done()
+        })
     })
     it('getStaffs method', () => {
         var spy = spyOn(sequelize, 'query');
+        var spy_1=spyOn(pReadingModels.hospital_staff_model,'findAll')
         var req = {
             body: {
                 end: '123456789'
@@ -174,30 +188,38 @@ describe('Hospital Staff Controlloer', () => {
         var res = {
             json: () => { }
         }
-
-        var result = Promise.resolve("test")
+        var sresult={
+            length:1
+        }
+        var result = Promise.resolve({
+            permission_id:"null",
+            length:1,
+            dataEntry_review_permission:0
+        })
 
         spy.andReturn(result)
         HospitalStaffController.getStaffs(req, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[2].dataEntry_review_permission).toBe(0)
             done()
         })
         HospitalStaffController.getStaffs(req1, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[2].dataEntry_review_permission).toBe(0)
             done()
         })
         HospitalStaffController.getStaffs(req2, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[2].dataEntry_review_permission).toBe(0)
             done()
         })
         HospitalStaffController.getStaffs(req4, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[2].dataEntry_review_permission).toBe(0)
             done()
         })
+        expect(sresult.length).toBe(1);
+      //  done();
     })
     it('getStaffCount method', () => {
         var spy = spyOn(sequelize, 'query');
@@ -272,6 +294,7 @@ describe('Hospital Staff Controlloer', () => {
             expect(data).toBe("test")
             done()
         })
+      
     })
     it('updateStaff method', () => {
         var spy = spyOn(pReadingModels.hospital_staff_model, 'findAll');
@@ -983,4 +1006,30 @@ describe('Hospital Staff Controlloer', () => {
         })
 
     })
+    it('updateReferralProfile method', () => {
+        var spy = spyOn(pReadingModels.referral_doctor_model, 'findByPk');
+        var req = {
+            body: {
+                firstName: 'test',
+                lastName:"testlast"
+            },
+            params: {
+                referralId: 92
+            }
+        }
+        var res = {
+            json: () => { }
+        }
+
+        var result = Promise.resolve("test")
+
+        spy.andReturn(result)
+        HospitalStaffController.updateReferralProfile(req, res, {})
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+            done()
+        })
+
+    })
+  
 })

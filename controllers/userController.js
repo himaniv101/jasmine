@@ -37,7 +37,7 @@ exports.resetPassword = (req, res, next) => {
 }
 exports.login = (req, res, next) => {
     var loginResponse = {}
-    user_model.findOne({
+    pReadingModels.user_model.findOne({
         where: sequelize.and(
             sequelize.where(sequelize.literal('user_name'), '=', req.body.username),
             sequelize.where(sequelize.literal('binary password'), '=', req.body.password),
@@ -339,32 +339,32 @@ exports.signup=(req,res,next)=>{
         }
       });
 }
-exports.searchGeneral=(req,res,next)=>{
-    const queryStr = 'SELECT * FROM `patient_general_infos` WHERE DATE(createdAt )  ="' + req.body.date + '" AND  study_id = "' + req.body.study_id + '" ORDER BY createdAt DESC'
-    console.clear()
-    console.error(queryStr)
-    sequelize.query(queryStr, {
-      type: sequelize.QueryTypes.SELECT
-    }).then(resp => {
-      if (resp && resp.length > 0) {
-        res.json(res_help.success(constant.success, resp));
-      } else {
-        res.json(res_help.notFound("record not found.", resp));
-      }
-    });
-}
-exports.searchParentHospital=(req,res,next)=>{
-    const queryStr = "SELECT h_id,parent_hospital_name FROM parent_hospitals WHERE parent_hospital_name LIKE '%"+req.body.hospital_name+"%'";
+// exports.searchGeneral=(req,res,next)=>{
+//     const queryStr = 'SELECT * FROM `patient_general_infos` WHERE DATE(createdAt )  ="' + req.body.date + '" AND  study_id = "' + req.body.study_id + '" ORDER BY createdAt DESC'
+//     console.clear()
+//     console.error(queryStr)
+//     sequelize.query(queryStr, {
+//       type: sequelize.QueryTypes.SELECT
+//     }).then(resp => {
+//       if (resp && resp.length > 0) {
+//         res.json(res_help.success(constant.success, resp));
+//       } else {
+//         res.json(res_help.notFound("record not found.", resp));
+//       }
+//     });
+// }
+// exports.searchParentHospital=(req,res,next)=>{
+//     const queryStr = "SELECT h_id,parent_hospital_name FROM parent_hospitals WHERE parent_hospital_name LIKE '%"+req.body.hospital_name+"%'";
 
-    // console.error('-----parentquery------'+queryStr);
+//     // console.error('-----parentquery------'+queryStr);
  
-    sequelize.query(queryStr, {
-      type: sequelize.QueryTypes.SELECT
-    }).then(resp => {
-      if (resp && resp.length > 0) {
-        res.json(res_help.success(constant.success, resp));
-      } else {
-        res.json(res_help.notFound("record not found.", resp));
-      }
-    });
-}
+//     sequelize.query(queryStr, {
+//       type: sequelize.QueryTypes.SELECT
+//     }).then(resp => {
+//       if (resp && resp.length > 0) {
+//         res.json(res_help.success(constant.success, resp));
+//       } else {
+//         res.json(res_help.notFound("record not found.", resp));
+//       }
+//     });
+// }

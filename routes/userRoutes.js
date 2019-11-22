@@ -11,8 +11,8 @@ urouter.post('/forgotPassword',userController.forgetPassword)
 
 urouter.post('/signup',userController.signup)
 
-urouter.post('/search_general',userController.searchGeneral)
+// urouter.post('/search_general',userController.searchGeneral)
 
-urouter.post('/search_parent_hospital',userController.searchParentHospital)
+// urouter.post('/search_parent_hospital',userController.searchParentHospital)
 
 module.exports= urouter

@@ -111,42 +111,29 @@ describe('UserController test',()=>{
     //    done();
 
     // });
-   
-    it('searchGeneral method', (done) => {
-        var spy = spyOn(sequelize, 'query');
-        var reqData = {
+    it('login',(done)=>{
+        var spy = spyOn(pReadingModels.user_model, 'findOne')
+        var req = {
             body: {
-               date:"112",
-               study_id:'123'
+                username: "testuser",
+                password:"1234"
             },
         }
+      
         var res = {
-            json: () => { },
+            json: () => { }
         }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        userController.searchGeneral(reqData, res, {});
+
+        var result = Promise.resolve({})
+
+        spy.andReturn(result)
+        userController.login(req, res, {})
         spy.plan().then((data) => {
             expect(data).toBe("test")
+            
         })
         done();
-    })
-    it('searchParentHospital method', (done) => {
-        var spy = spyOn(sequelize, 'query');
-        var reqData = {
-            body: {
-                hospital_name:"test_hospital"
-            },
-        }
-        var res = {
-            json: () => { },
-        }
-        var result2 = Promise.resolve("test")
-        spy.andReturn(result2)
-        userController.searchParentHospital(reqData, res, {});
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-        })
-        done();
-    })
+
+    });
+  
 })

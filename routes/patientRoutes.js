@@ -65,25 +65,25 @@ prouter.get('/getScore/:bmrn/:reading',patientController.getGeneratedScrore);
 
 prouter.post('/signup',patientController.patientSignup)
 
-prouter.post('/baby_cv/add',patientController.BabyCvAdd)
+// prouter.post('/baby_cv/add',patientController.BabyCvAdd)
 
-prouter.post('/baby_appears/add',patientController.BabyAppearAdd)
+// prouter.post('/baby_appears/add',patientController.BabyAppearAdd)
 
-prouter.post('/baby_resp/add',patientController.BabyRespAdd)
+// prouter.post('/baby_resp/add',patientController.BabyRespAdd)
 
 prouter.post('/basic/add_dup/:hospital_id',patientController.BabyBasicDupAdd)
 
 prouter.post('/general/add/:uStaffId',patientController.GeneralAddByUid)
 
-prouter.post('/baby_cns/add',patientController.BabyCnsAdd)
+// prouter.post('/baby_cns/add',patientController.BabyCnsAdd)
 
-prouter.post('/baby_git/add',patientController.BabyGitAdd)
+// prouter.post('/baby_git/add',patientController.BabyGitAdd)
 
-prouter.post('/baby_investigation/add',patientController.BabyInvestAdd)
+// prouter.post('/baby_investigation/add',patientController.BabyInvestAdd)
 
-prouter.post('/baby_antibiotic/add',patientController.BabyAntiBioticAdd)
+// prouter.post('/baby_antibiotic/add',patientController.BabyAntiBioticAdd)
 
-prouter.post('/baby_final/add',patientController.BabyFinalAdd)
+// prouter.post('/baby_final/add',patientController.BabyFinalAdd)
 
 prouter.post('/get_patients',patientController.BabyGetPatient)
 
@@ -94,6 +94,8 @@ prouter.post('/like',patientController.patientLike)
 prouter.post('/get_patient/:id',patientController.getPatientById)
 
 prouter.post('/maternal/add/:uStaffId',patientController.MaternalAdd)
+
+prouter.post('/basic/add',patientController.BasicAdd)
 
 
 module.exports= prouter

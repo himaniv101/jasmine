@@ -6,25 +6,14 @@ const { sequelize } = require('../sequelize')
 const queries = require('../helper/queries')
 const mapper = require('../mapper/mapper')
 const excel = require('exceljs');
+const util=require('../helper/util')
 const enumConst = require('../helper/enum')
 const allQueries = require('../helper/queries/patientContQueries');
 let Validator = require('validatorjs');
-const maternal_model = require('../sequelize');
 
 
 const patient_model = require('../sequelize');
-const patient_level_model = require('../sequelize');
-const basic_model = require('../sequelize');
-const general_model = require('../sequelize');
-const baby_appear_model = require('../sequelize');
-const baby_resp_model = require('../sequelize');
-const baby_cv_model = require('../sequelize');
-const baby_cns_model = require('../sequelize');
-const baby_git_model = require('../sequelize');
-const baby_final_model = require('../sequelize');
-const baby_antibiotic_model = require('../sequelize');
-const baby_investigation_model = require('../sequelize');
-const bcrypt = require('bcrypt');
+
 const res_help = require('../helper/res');
 
 
@@ -1915,22 +1904,6 @@ exports.getGeneratedScrore = (req, res, next) => {
 
 
 exports.patientSignup = (req, res, next) => {
-  let isExists = (schmea, col_name_text, col_value, cb) => {
-    const whereObj = {}
-    whereObj[col_name_text] = col_value;
-    schmea.findOne({
-      where: whereObj,
-    })
-      .then(response => {
-        if (response != null) {
-          cb(true, response);
-        } else {
-          cb(false, []);
-        }
-      }).catch(err => {
-        cb(false, [])
-      });
-  }
   const reqData = {
     patient_first_name: req.body.patient_first_name,
     patient_last_name: req.body.patient_last_name,
@@ -1952,7 +1925,7 @@ exports.patientSignup = (req, res, next) => {
   if (validation.fails()) {
     res.json(responseHelper.validationFails(constant.alreadyExist));
   }
-  isExists(patient_model, 'phone', reqData.phone, (res_status, response) => {
+  util.isExists(patient_model, 'phone', reqData.phone, (res_status, response) => {
     if (res_status) {
       res.json(res_help.success(constant.patient_alreay_taken_msg, [], constant.username_alreay_taken_status));
     } else {
@@ -1962,95 +1935,95 @@ exports.patientSignup = (req, res, next) => {
     }
   });
 }
-exports.BabyCvAdd = (req, res, next) => {
-  const reqData = {
-    urine_output: req.body.urine_output,
-    baby_blood_pressure_mean_arterial_bp: req.body.baby_blood_pressure_mean_arterial_bp,
-    baby_blood_pressure_upper_limb: req.body.baby_blood_pressure_upper_limb,
-    baby_blood_pressure_lower_limb: req.body.baby_blood_pressure_lower_limb,
-    capillary_refill: req.body.capillary_refill,
-    capillary_refill_unit: req.body.capillary_refill_unit,
-    low_peripheral_pulse_volume: req.body.low_peripheral_pulse_volume,
-    cool_peripheries: req.body.cool_peripheries,
-    two_d_echo_done: req.body.two_d_echo_done,
-    two_d_echo_done_if_yes: req.body.two_d_echo_done_if_yes,
-    baby_on_ionotropes: req.body.baby_on_ionotropes,
-    heart_rate: req.body.heart_rate,
-    central_line: req.body.central_line,
-    skin_pustules: req.body.skin_pustules,
-    infusion_of_blood_products: req.body.infusion_of_blood_products,
-    study_id: req.body.study_id
-  };
+// exports.BabyCvAdd = (req, res, next) => {
+//   const reqData = {
+//     urine_output: req.body.urine_output,
+//     baby_blood_pressure_mean_arterial_bp: req.body.baby_blood_pressure_mean_arterial_bp,
+//     baby_blood_pressure_upper_limb: req.body.baby_blood_pressure_upper_limb,
+//     baby_blood_pressure_lower_limb: req.body.baby_blood_pressure_lower_limb,
+//     capillary_refill: req.body.capillary_refill,
+//     capillary_refill_unit: req.body.capillary_refill_unit,
+//     low_peripheral_pulse_volume: req.body.low_peripheral_pulse_volume,
+//     cool_peripheries: req.body.cool_peripheries,
+//     two_d_echo_done: req.body.two_d_echo_done,
+//     two_d_echo_done_if_yes: req.body.two_d_echo_done_if_yes,
+//     baby_on_ionotropes: req.body.baby_on_ionotropes,
+//     heart_rate: req.body.heart_rate,
+//     central_line: req.body.central_line,
+//     skin_pustules: req.body.skin_pustules,
+//     infusion_of_blood_products: req.body.infusion_of_blood_products,
+//     study_id: req.body.study_id
+//   };
 
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_cv_model.create(reqData).then((response) => {
-    // level_update(req, req.body.patient_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_cv_model.create(reqData).then((response) => {
+//     // level_update(req, req.body.patient_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
 
-exports.BabyAppearAdd = (req, res, next) => {
-  const reqData = req.body;
+// exports.BabyAppearAdd = (req, res, next) => {
+//   const reqData = req.body;
 
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_appear_model.create(reqData).then((response) => {
-    //level_update(req, req.body.patient_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_appear_model.create(reqData).then((response) => {
+//     //level_update(req, req.body.patient_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
 
-exports.BabyRespAdd = (req, res, next) => {
-  const reqData = {
-    groaning: req.body.groaning,
-    grunting: req.body.grunting,
-    stridor: req.body.stridor,
-    retraction: req.body.retraction,
-    fast_breathing: req.body.fast_breathing,
-    oxygen_saturation: req.body.oxygen_saturation,
-    breathing_rate: req.body.breathing_rate,
-    baby_chest_indrawing: req.body.baby_chest_indrawing,
-    x_ray_status_done: req.body.x_ray_status_done,
-    x_ray_result: req.body.x_ray_result,
-    x_ray_status: req.body.x_ray_status,
-    x_ray_diagnosis_any_other: req.body.x_ray_diagnosis_any_other,
-    apnea_status: req.body.apnea_status,
-    apnea_diagnosis: req.body.apnea_diagnosis,
-    baby_respiratory_support: req.body.baby_respiratory_support,
-    baby_respiratory_support_if_yes: req.body.baby_respiratory_support_if_yes,
-    baby_respiratory_support_if_other: req.body.baby_respiratory_support_if_other,
-    study_id: req.body.study_id
-  };
+// exports.BabyRespAdd = (req, res, next) => {
+//   const reqData = {
+//     groaning: req.body.groaning,
+//     grunting: req.body.grunting,
+//     stridor: req.body.stridor,
+//     retraction: req.body.retraction,
+//     fast_breathing: req.body.fast_breathing,
+//     oxygen_saturation: req.body.oxygen_saturation,
+//     breathing_rate: req.body.breathing_rate,
+//     baby_chest_indrawing: req.body.baby_chest_indrawing,
+//     x_ray_status_done: req.body.x_ray_status_done,
+//     x_ray_result: req.body.x_ray_result,
+//     x_ray_status: req.body.x_ray_status,
+//     x_ray_diagnosis_any_other: req.body.x_ray_diagnosis_any_other,
+//     apnea_status: req.body.apnea_status,
+//     apnea_diagnosis: req.body.apnea_diagnosis,
+//     baby_respiratory_support: req.body.baby_respiratory_support,
+//     baby_respiratory_support_if_yes: req.body.baby_respiratory_support_if_yes,
+//     baby_respiratory_support_if_other: req.body.baby_respiratory_support_if_other,
+//     study_id: req.body.study_id
+//   };
 
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_resp_model.create(reqData).then((response) => {
-    //level_update(req, req.body.patient_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_resp_model.create(reqData).then((response) => {
+//     //level_update(req, req.body.patient_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
 
 exports.BabyBasicDupAdd = (req, res, next) => {
   const reqData = {
@@ -2117,96 +2090,96 @@ exports.GeneralAddByUid = (req, res, next) => {
   })
 }
 
-exports.BabyCnsAdd = (req, res, nexy) => {
-  const reqData = req.body;
-  console.clear();
-  console.error(reqData)
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_cns_model.create(reqData).then((response) => {
-    //level_update(req, req.body.study_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
-exports.BabyGitAdd = (req, res, next) => {
-  const reqData = req.body;
-  console.clear();
-  console.error(reqData)
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_git_model.create(reqData).then((response) => {
-    //level_update(req, req.body.study_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
-exports.BabyInvestAdd = (req, res, next) => {
-  const reqData = req.body;
-  console.clear();
-  console.error(reqData)
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_investigation_model.create(reqData).then((response) => {
-    //level_update(req, req.body.study_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
-exports.BabyAntiBioticAdd = (req, res, next) => {
-  const reqData = req.body;
-  console.clear();
-  console.error(reqData)
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_antibiotic_model.create(reqData).then((response) => {
-    //level_update(req, req.body.study_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
-exports.BabyFinalAdd = (req, res, next) => {
-  const reqData = req.body;
-  console.clear();
-  console.error(reqData)
-  let rules = {
-    study_id: 'required'
-  };
-  let validation = new Validator(reqData, rules);
-  if (validation.fails()) {
-    return res.status(200).json(res_help.notFound(constant.common_required));
-  }
-  pReadingModels.baby_final_model.create(reqData).then((response) => {
-    //level_update(req, req.body.study_id);
-    return res.json(res_help.success(constant.success, response));
-  }).catch((error) => {
-    return res.json(res_help.serveError("Internal  server error.", []));
-  })
-}
+// exports.BabyCnsAdd = (req, res, nexy) => {
+//   const reqData = req.body;
+//   console.clear();
+//   console.error(reqData)
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_cns_model.create(reqData).then((response) => {
+//     //level_update(req, req.body.study_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
+// exports.BabyGitAdd = (req, res, next) => {
+//   const reqData = req.body;
+//   console.clear();
+//   console.error(reqData)
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_git_model.create(reqData).then((response) => {
+//     //level_update(req, req.body.study_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
+// exports.BabyInvestAdd = (req, res, next) => {
+//   const reqData = req.body;
+//   console.clear();
+//   console.error(reqData)
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_investigation_model.create(reqData).then((response) => {
+//     //level_update(req, req.body.study_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
+// exports.BabyAntiBioticAdd = (req, res, next) => {
+//   const reqData = req.body;
+//   console.clear();
+//   console.error(reqData)
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_antibiotic_model.create(reqData).then((response) => {
+//     //level_update(req, req.body.study_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
+// exports.BabyFinalAdd = (req, res, next) => {
+//   const reqData = req.body;
+//   console.clear();
+//   console.error(reqData)
+//   let rules = {
+//     study_id: 'required'
+//   };
+//   let validation = new Validator(reqData, rules);
+//   if (validation.fails()) {
+//     return res.status(200).json(res_help.notFound(constant.common_required));
+//   }
+//   pReadingModels.baby_final_model.create(reqData).then((response) => {
+//     //level_update(req, req.body.study_id);
+//     return res.json(res_help.success(constant.success, response));
+//   }).catch((error) => {
+//     return res.json(res_help.serveError("Internal  server error.", []));
+//   })
+// }
 exports.BabyGetPatient = (req, res, next) => {
   pReadingModels.basic_model.findAll({
     where: {
@@ -2288,4 +2261,42 @@ exports.MaternalAdd = (req, res, next) => {
   }).catch((error) => {
     return res.json(res_help.serveError("Internal  server error.", []));
   })
+}
+exports.BasicAdd=(req,res,next)=>{
+  const reqData = {
+    hospital_id: req.body.id,
+    hospital_name: req.body.hospital_name,
+    hospital_branch_name: req.body.hospital_branch_name,
+
+    baby_mother_medical_record_number: req.body.baby_mother_medical_record_number,
+    baby_medical_record_number: req.body.baby_medical_record_number,
+
+    is_update: false
+  };
+
+  let rules = {
+    baby_medical_record_number: 'required',
+    baby_mother_medical_record_number: 'required'
+  };
+
+
+  let validation = new Validator(reqData, rules);
+  if (validation.fails()) {
+    return res.status(200).json(res_help.notFound(constant.common_required));
+  }
+  let whereObj = {
+    hospital_id: req.body.id,
+    'baby_medical_record_number': req.body.baby_medical_record_number
+  };
+  util.isExistsWhere(basic_model, whereObj, (status, response) => {
+    if (status) {
+      return res.json(res_help.alreadyExist('This record number already exist.', response, 422));
+    } else {
+      basic_model.create(reqData).then((response) => {
+        // level_update(req, req.body.study_id);
+        return res.json(res_help.success(constant.patient_basic_success, response));
+      });
+    }
+
+  });
 }

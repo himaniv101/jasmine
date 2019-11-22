@@ -4,13 +4,20 @@ const token=require('../../auth/verifyToken');
 
 describe('auth testing',()=>{
     it('verify token method',(done)=>{
+        var spy=spyOn(jwt,'verify')
         var req={
-            headers:'x-access-token'
+            headers:{
+                'x-access-token':""
+            }
+        }
+        var decoded={
+            id:1
         }
         var res = {
-            status:() =>{}
+            json:() =>{}
         }
-      //  token(req,res,{});
+        token(req,res,{});
+        expect(spy.wasCalled).toBe(true)
         done();
     })
 })

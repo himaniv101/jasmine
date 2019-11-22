@@ -74,4 +74,14 @@ describe('res Helper testing', () => {
         //console.log(result);
         done();
     })
+    it('failedAuthenticationToken test', (done) => {
+        ans = {
+            message: 'Failed to authenticate token',
+            status: 500,
+            auth: false,
+        }
+        var result = res.failedAuthenticationToken(message = 'Failed to authenticate token', status = 500,auth= false);
+        //console.log(result);
+        done();
+    })
 })

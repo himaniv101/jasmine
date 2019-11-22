@@ -4,7 +4,7 @@ const sequelize=require('../sequelize');
 const basic_model=require('../sequelize');
 const res_help=require('../helper/res');
 const constant=require('../helper/constant');
-
+const util=require('../helper/util')
 
 
 let Validator = require('validatorjs');
@@ -94,45 +94,45 @@ module.exports = app => {
    * @requires : - for the used the default Docter signup
    * @return :-  User Response Send
    */
-  app.post('/patient/basic/add', (req, res) => {
-    const reqData = {
-      hospital_id: req.body.id,
-      hospital_name: req.body.hospital_name,
-      hospital_branch_name: req.body.hospital_branch_name,
+  // app.post('/patient/basic/add', (req, res) => {
+  //   const reqData = {
+  //     hospital_id: req.body.id,
+  //     hospital_name: req.body.hospital_name,
+  //     hospital_branch_name: req.body.hospital_branch_name,
 
-      baby_mother_medical_record_number: req.body.baby_mother_medical_record_number,
-      baby_medical_record_number: req.body.baby_medical_record_number,
+  //     baby_mother_medical_record_number: req.body.baby_mother_medical_record_number,
+  //     baby_medical_record_number: req.body.baby_medical_record_number,
 
-      is_update: false
-    };
+  //     is_update: false
+  //   };
 
-    let rules = {
-      baby_medical_record_number: 'required',
-      baby_mother_medical_record_number: 'required'
-    };
+  //   let rules = {
+  //     baby_medical_record_number: 'required',
+  //     baby_mother_medical_record_number: 'required'
+  //   };
 
 
-    let validation = new Validator(reqData, rules);
-    if (validation.fails()) {
-      return res.status(200).json(res_help.notFound(constant.common_required));
-    }
-    let whereObj = {
-      hospital_id: req.body.id,
-      'baby_medical_record_number': req.body.baby_medical_record_number
-    };
-    isExistsWhere(basic_model, whereObj, (status, response) => {
-      if (status) {
-        return res.json(res_help.alreadyExist('This record number already exist.', response, 422));
-      } else {
-        basic_model.create(reqData).then((response) => {
-          // level_update(req, req.body.study_id);
-          return res.json(res_help.success(constant.patient_basic_success, response));
-        });
-      }
+  //   let validation = new Validator(reqData, rules);
+  //   if (validation.fails()) {
+  //     return res.status(200).json(res_help.notFound(constant.common_required));
+  //   }
+  //   let whereObj = {
+  //     hospital_id: req.body.id,
+  //     'baby_medical_record_number': req.body.baby_medical_record_number
+  //   };
+  //   util.isExistsWhere(basic_model, whereObj, (status, response) => {
+  //     if (status) {
+  //       return res.json(res_help.alreadyExist('This record number already exist.', response, 422));
+  //     } else {
+  //       basic_model.create(reqData).then((response) => {
+  //         // level_update(req, req.body.study_id);
+  //         return res.json(res_help.success(constant.patient_basic_success, response));
+  //       });
+  //     }
 
-    });
+  //   });
 
-  });
+  // });
 
   // app.post('/patient/basic/add_dup/:hospital_id', (req, res) => {
   //   const reqData = {
@@ -730,42 +730,27 @@ module.exports = app => {
 //     });
 // }
 
-let isExistsWhere = (schmea, where_obj, cb) => {
-  const whereObj = {}
-  // whereObj[col_name_text] = col_value;
-  const queryStr = "SELECT * FROM patient_basic_infos WHERE hospital_id = '"+where_obj.hospital_id+"' AND baby_medical_record_number='"+where_obj.baby_medical_record_number+"' ORDER BY createdAt DESC LIMIT 1";
-  sequelize.query(queryStr, {
-  type: sequelize.QueryTypes.SELECT,
-  raw: true
-  }).then(response => {
-  //console.log('----------MJMJMJMJM------'+JSON.stringify(response));
-  // JSON.stringify(response[0])
-  if (response.length > 0) {
-  cb(true, response[0]);
-  } else {
-  cb(false, []);
-  }
-  }).catch(err => {
-  cb(false, [])
-  });
-  }
-
 // let isExistsWhere = (schmea, where_obj, cb) => {
 //   const whereObj = {}
 //   // whereObj[col_name_text] = col_value;
-//   schmea.findOne({
-//     where: where_obj,
-//   })
-//     .then(response => {
-//       if (response != null) {
-//         cb(true, response);
-//       } else {
-//         cb(false, []);
-//       }
-//     }).catch(err => {
-//       cb(false, [])
-//     });
-// }
+//   const queryStr = "SELECT * FROM patient_basic_infos WHERE hospital_id = '"+where_obj.hospital_id+"' AND baby_medical_record_number='"+where_obj.baby_medical_record_number+"' ORDER BY createdAt DESC LIMIT 1";
+//   sequelize.query(queryStr, {
+//   type: sequelize.QueryTypes.SELECT,
+//   raw: true
+//   }).then(response => {
+//   //console.log('----------MJMJMJMJM------'+JSON.stringify(response));
+//   // JSON.stringify(response[0])
+//   if (response.length > 0) {
+//   cb(true, response[0]);
+//   } else {
+//   cb(false, []);
+//   }
+//   }).catch(err => {
+//   cb(false, [])
+//   });
+//   }
+
+
 
 
 /**
