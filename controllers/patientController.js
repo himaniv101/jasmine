@@ -2050,10 +2050,6 @@ exports.BabyBasicDupAdd = (req, res, next) => {
     hospital_name: req.body.hospital_name,
     'baby_medical_record_number': req.body.baby_medical_record_number
   };
-  //isExistsWhere(basic_model, whereObj, (status) => {
-  /*if (status) {
-  return res.json(res_help.alreadyExist('This record number already exist.'));
-  } else {*/
   pReadingModels.basic_model.create(reqData).then((response) => {
     // level_update(req, req.body.study_id);
     return res.json(res_help.success(constant.patient_basic_success, response));
