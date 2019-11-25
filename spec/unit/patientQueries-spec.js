@@ -53,8 +53,10 @@ describe('Patient Controller queries test',()=>{
         done();
     })
     it('getBabyMedicalRecord_searchTextNull test',(done)=>{
-        var result=queries.PatientContQueries.getBabyMedicalRecord_searchTextNull(1,10,1);
-        expect(queries.PatientContQueries.getBabyMedicalRecord_searchTextNull(1,10,1)).toBe(result);
+        var result=queries.PatientContQueries.getBabyMedicalRecord_searchTextNull(1,10,true);
+        expect(queries.PatientContQueries.getBabyMedicalRecord_searchTextNull(1,10,true)).toBe(result);
+        var result=queries.PatientContQueries.getBabyMedicalRecord_searchTextNull(1,10,false);
+        expect(queries.PatientContQueries.getBabyMedicalRecord_searchTextNull(1,10,false)).toBe(result);
         done();
     })
     it('getBabyMedicalRecord_searchText test',(done)=>{
@@ -72,11 +74,11 @@ describe('Patient Controller queries test',()=>{
         expect(queries.PatientContQueries.babyMedicalRecordCount_searchText(1)).toBe(result);
         done();
     })
-    // it('babyMedicalRecordCount_searchTextNull test',(done)=>{
-    //     var result=queries.PatientContQueries.babyMedicalRecordCount_searchTextNull(1);
-    //     expect(queries.PatientContQueries.babyMedicalRecordCount_searchTextNull(1)).toBe(result);
-    //     done();
-    // })
+    it('babyMedicalRecordCount_searchTextNull test',(done)=>{
+        var result=queries.PatientContQueries.babyMedicalRecordCount_searchTextNull(1);
+        expect(queries.PatientContQueries.babyMedicalRecordCount_searchTextNull(1)).toBe(result);
+        done();
+    })
    
     it('scoreGeneratedReport_query test',(done)=>{
         var result=queries.PatientContQueries.scoreGeneratedReport_query(1,101);

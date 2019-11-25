@@ -2284,7 +2284,7 @@ exports.BasicAdd=(req,res,next)=>{
     hospital_id: req.body.id,
     'baby_medical_record_number': req.body.baby_medical_record_number
   };
-  util.isExistsWhere(basic_model, whereObj, (status, response) => {
+  util.isExistsWhere(pReadingModels.basic_model, whereObj, (status, response) => {
     if (status) {
       return res.json(res_help.alreadyExist('This record number already exist.', response, 422));
     } else {

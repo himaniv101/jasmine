@@ -4,9 +4,9 @@ const Cors=require('cors');
 const bodyParser=require('body-parser');
 const logger=require('morgan');
 
-const responseHelper = require('./helper/res')
-const constant = require('./helper/constant')
-const multer = require('multer');
+// const responseHelper = require('./helper/res')
+// const constant = require('./helper/constant')
+// const multer = require('multer');
 require('custom-env').env()
 const app = express();
 
@@ -18,6 +18,8 @@ const usroutes = require('./routes/userRoutes')
 
 console.error(process.env.API_PORT)
 const API_PORT = process.env.API_PORT || 8081;
+
+
 
 app.use(Cors());
 app.use(bodyParser.urlencoded({extended: true }));
@@ -36,7 +38,7 @@ app.use('/',usroutes)
 
 
 // require('./routes/loginUser')(app);
-require('./routes/patient')(app);
+//require('./routes/patient')(app);
 // require('./routes/get_tabs')(app);
 
 
@@ -58,5 +60,6 @@ require('./routes/patient')(app);
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
 
 module.exports = app
+// console.log(app)
 exports.port = API_PORT;
     

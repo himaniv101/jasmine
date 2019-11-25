@@ -74,9 +74,12 @@ describe('hospitalBranchController', () => {
 
     it("registerHospitalBranch test", (done) => {
         var spy = spyOn(pReadingModels.user_model, 'findAll')
+        var spy1 = spyOn(pReadingModels.user_model, 'create')
+
         var req = {
             body: {
-                name: "test"
+                name: "test",
+                user_name:"testuser"
             },
             params: {
                 hospitalId: 92,
@@ -114,7 +117,12 @@ describe('hospitalBranchController', () => {
             expect(data.test).toBe("test")
             done()
         })
-
+        spy1.andReturn(result3)
+        var result3=Promise.resolve();
+        spy.andReturn(result3)
+        spy.plan().then((data)=>{
+            expect(spy1.wasCalled).toBe(true)
+        })
     });
 
     it("getHospitalBranches test", (done) => {
@@ -131,6 +139,18 @@ describe('hospitalBranchController', () => {
                 searchText: "test"
             }
         }
+        var req1 = {
+            body: {
+                name: "test"
+            },
+            params: {
+                hospitalId: 92,
+                hospitalBranchRoleId: 162
+            },
+            query: {
+                searchText: "null"
+            }
+        }
 
         var res = {
             json: () => { }
@@ -142,12 +162,18 @@ describe('hospitalBranchController', () => {
             expect(data).toBe("test")
             done()
         })
+        hospitalBranchController.getHospitalBranches(req1, res, {})
+        spy.plan().then((data) => {
+            expect(data).toBe("test")
+            done()
+        })
 
     });
 
 
     it("addRole test", (done) => {
         var spy = spyOn(pReadingModels.role_model, 'findAll')
+        var spy1=spyOn(pReadingModels.hospital_branch_roles_model,'findAll')
         var req = {
             body: {
                 name: "test"
@@ -156,9 +182,6 @@ describe('hospitalBranchController', () => {
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
-            query: {
-                searchText: "test"
-            }
         }
 
         var res = {
@@ -166,17 +189,21 @@ describe('hospitalBranchController', () => {
         }
         var result = Promise.resolve(["test"])
         spy.andReturn(result)
+        spy1.andReturn(result)
         hospitalBranchController.addRole(req, res, {})
         spy.plan().then((data) => {
             expect(data[0]).toBe("test")
+            expect(spy1.wasCalled).toBe(true)
             done()
         })
 
         var result2 = Promise.resolve([])
         spy.andReturn(result2)
+        spy1.andReturn(result2)
         hospitalBranchController.addRole(req, res, {})
         spy.plan().then((data) => {
             expect(data.length).toBe(0)
+            expect(spy1.wasCalled).toBe(true)
             done()
         })
 
@@ -184,27 +211,36 @@ describe('hospitalBranchController', () => {
 
     it("updateHospitalBrancheRoles test", (done) => {
         var spy = spyOn(pReadingModels.hospital_branch_roles_model, 'findByPk')
+        var spy1=spyOn(pReadingModels.role_model,'create')
+        var spy2=spyOn(pReadingModels.hospital_branch_roles_model,'create')
         var req = {
             body: {
-                name: "test"
+                name: "test",
+                role:"doctor"
             },
             params: {
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
-            query: {
-                searchText: "test"
-            }
         }
 
         var res = {
             json: () => { }
         }
         var result = Promise.resolve("test")
+
         spy.andReturn(result)
+        spy1.andReturn(result)
+        spy2.andReturn(result)
+
         hospitalBranchController.updateHospitalBrancheRoles(req, res, {})
         spy.plan().then((data) => {
             expect(data).toBe("test")
+            done()
+        })
+        spy1.plan().then((data) => {
+            expect(data).toBe("test")
+            expect(spy2.wasCalled).toBe(true);
             done()
         })
 
@@ -213,6 +249,8 @@ describe('hospitalBranchController', () => {
 
     it("addSpeciality test", (done) => {
         var spy = spyOn(pReadingModels.speciality_model, 'findAll')
+        var spy1=spyOn(pReadingModels.hospital_branch_speciality_model,'findAll')
+
         var req = {
             body: {
                 name: "test"
@@ -221,19 +259,25 @@ describe('hospitalBranchController', () => {
                 hospitalId: 92,
                 hospitalBranchRoleId: 162
             },
-            query: {
-                searchText: "test"
-            }
         }
 
         var res = {
             json: () => { }
         }
-        var result = Promise.resolve(["test"])
+        var result = Promise.resolve([{
+                id: 123,
+                save: () => {
+                   return Promise.resolve("test")
+                 }
+        }])
+        var result3=Promise.resolve()
         spy.andReturn(result)
+        spy1.andReturn(result3)
+       
         hospitalBranchController.addSpeciality(req, res, {})
         spy.plan().then((data) => {
-            expect(data[0]).toBe("test")
+            expect(data[0].id).toBe(123)
+            expect(spy1.wasCalled).toBe(true)
             done()
         })
 
@@ -315,6 +359,8 @@ describe('hospitalBranchController', () => {
 
     it("updateHospitalBrancheSpecialities test", (done) => {
         var spy = spyOn(pReadingModels.hospital_branch_speciality_model, 'findByPk')
+        var spy1=spyOn(pReadingModels.speciality_model,'create')
+        var spy2=spyOn(pReadingModels.hospital_branch_speciality_model,'create')
         var req = {
             body: {
                 name: "test"
@@ -333,12 +379,19 @@ describe('hospitalBranchController', () => {
         }
         var result = Promise.resolve("test")
         spy.andReturn(result)
+        spy1.andReturn(result)
+        spy2.andReturn(result)
+
         hospitalBranchController.updateHospitalBrancheSpecialities(req, res, {})
         spy.plan().then((data) => {
             expect(data).toBe("test")
             done()
         })
-
+        spy1.plan().then((data) => {
+            expect(data).toBe("test")
+            expect(spy3.wasCalled).toBe(true)
+            done()
+        })
     });
 
     it("getHopitalBranchProfile test", (done) => {
@@ -349,11 +402,8 @@ describe('hospitalBranchController', () => {
             },
             params: {
                 hospitalId: 92,
-                hospitalBranchRoleId: 162
+                hospitalBranchId: 162
             },
-            query: {
-                searchText: "test"
-            }
         }
 
         var res = {

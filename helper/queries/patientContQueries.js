@@ -126,7 +126,7 @@ class PatientContQueries{
     }
 
     static babyMedicalRecordCount_searchTextNull(isStaff) {
-        let query = query = `SELECT
+        let query =`SELECT
         patient_infos.baby_name as  count, count(*) as total
         FROM patient_infos 
         JOIN patient_basic_infos ON patient_basic_infos.id=patient_infos.study_id 
