@@ -35,8 +35,8 @@ describe('Util Helper',()=>{
         let permissionResult_1={
             active_flag:'1'
         };
-        var ans_2=util.getStaffPermission(1,result_1,permissionResult_1);
-        expect(util.getStaffPermission(1,result_1,permissionResult_1)).toBe(ans_2)
+        var ans_2=util.getStaffPermission(2,result_1,permissionResult_1);
+        expect(util.getStaffPermission(2,result_1,permissionResult_1)).toBe(ans_2)
         done();
     })
     // it('getStaffPermissionId test',(done)=>{

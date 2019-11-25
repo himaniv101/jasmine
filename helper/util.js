@@ -17,19 +17,19 @@ exports.getStaffPermission = (permissionId, result, permissionResult) => {
 }
 
 
-exports.getStaffPermissionId = (permission) => {
+// exports.getStaffPermissionId = (permission) => {
 
-    console.log("permission :", permission)
+//     console.log("permission :", permission)
 
-    switch (permission) {
-        case dataEntry_review_permission:
-            return 1
-        //  break
-        case scoreGenerate:
-            return 2
-        //    break
-    }
-}
+//     switch (permission) {
+//         case dataEntry_review_permission:
+//             return 1
+//         //  break
+//         case scoreGenerate:
+//             return 2
+//         //    break
+//     }
+// }
 
 exports.getRefferalInitiationStatusId = (status) => {
 

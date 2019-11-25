@@ -77,30 +77,30 @@ describe('Hospital Staff Controlloer', () => {
         })
 
     })
-    it('downloadFile method', () => {
-        var spy = spyOn(pReadingModels.referral_files_model, 'findAll');
-        var req = {
-            body: {
-                name: 'test'
-            },
-            params: {
-                fileId: 92
-            }
-        }
-        var res = {
-            json: () => { }
-        }
+    // it('downloadFile method', () => {
+    //     var spy = spyOn(pReadingModels.referral_files_model, 'findAll');
+    //     var req = {
+    //         body: {
+    //             name: 'test'
+    //         },
+    //         params: {
+    //             fileId: 92
+    //         }
+    //     }
+    //     var res = {
+    //         json: () => { }
+    //     }
 
-        var result = Promise.resolve("test")
+    //     var result = Promise.resolve("test")
 
-        spy.andReturn(result)
-        HospitalStaffController.downloadFile(req, res, {})
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-            done()
-        })
+    //     spy.andReturn(result)
+    //     HospitalStaffController.downloadFile(req, res, {})
+    //     spy.plan().then((data) => {
+    //         expect(data).toBe("test")
+    //         done()
+    //     })
 
-    })
+    // })
     it('addStaff method', () => {
         var spy = spyOn(pReadingModels.user_model, 'findAll');
         var spy_1 = spyOn(pReadingModels.user_model, 'create');
@@ -196,11 +196,12 @@ describe('Hospital Staff Controlloer', () => {
             length:1,
             dataEntry_review_permission:0
         })
-
+        spy_1.andReturn(result)
         spy.andReturn(result)
         HospitalStaffController.getStaffs(req, res, {})
         spy.plan().then((data) => {
             expect(data[2].dataEntry_review_permission).toBe(0)
+            expect(spy_1.wasCalled).toBe(true)
             done()
         })
         HospitalStaffController.getStaffs(req1, res, {})
@@ -318,22 +319,18 @@ describe('Hospital Staff Controlloer', () => {
             json: () => { }
         }
 
-        var result = Promise.resolve("test")
-        var result_1 = Promise.resolve({
-            firstName: "testfirst",
-            lastName: 'testLast',
-            speciality: "doctosr",
-            assignRole: "doc"
-        })
+        var result = Promise.resolve([{
+            "active_flag":1
+        }])
         spy.andReturn(result)
         spy1.andReturn(result)
         HospitalStaffController.updateStaff(req, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[0].active_flag).toBe(req.body.status)
             done()
         })
         spy1.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[0].active_flag).toBe(1)
             done()
         })
 
@@ -733,7 +730,7 @@ describe('Hospital Staff Controlloer', () => {
     })
     it('updateRefferalInitiationStatus method', () => {
         var spy = spyOn(pReadingModels.referral_hospitals_model, 'create');
-
+        var spy1=spyOn(pReadingModels.referral_hospitals_model,'findByPk')
         var req = {
             body: {
                 requesterType: 'takecare',
@@ -765,16 +762,10 @@ describe('Hospital Staff Controlloer', () => {
         var result = Promise.resolve("test")
 
         spy.andReturn(result)
+        spy1.andReturn(result)
         HospitalStaffController.updateRefferalInitiationStatus(req, res, {})
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-            done()
-        })
         HospitalStaffController.updateRefferalInitiationStatus(req1, res, {})
-        spy.plan().then((data) => {
-            expect(data).toBe("test")
-            done()
-        })
+        expect(spy1.wasCalled).toBe(true)
 
     })
     it('getReferralHospitalCount method', () => {
