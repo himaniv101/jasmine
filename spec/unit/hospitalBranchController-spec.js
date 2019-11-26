@@ -270,10 +270,10 @@ describe('hospitalBranchController', () => {
                    return Promise.resolve("test")
                  }
         }])
-        var result3=Promise.resolve()
+        var result3=Promise.resolve('test')
         spy.andReturn(result)
         spy1.andReturn(result3)
-       
+        
         hospitalBranchController.addSpeciality(req, res, {})
         spy.plan().then((data) => {
             expect(data[0].id).toBe(123)
@@ -464,6 +464,7 @@ describe('hospitalBranchController', () => {
         })
         spy2.plan().then((data)=>{
             expect(data.user_id).toBe(123)
+            
             done()
         })
 

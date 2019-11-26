@@ -39,20 +39,6 @@ describe('Util Helper',()=>{
         expect(util.getStaffPermission(2,result_1,permissionResult_1)).toBe(ans_2)
         done();
     })
-    // it('getStaffPermissionId test',(done)=>{
-    //     var dataEntry_review_permission={}
-    //     var ans_1=util.getStaffPermissionId(dataEntry_review_permission);
-    //     expect(util.getStaffPermissionId(dataEntry_review_permission)).toBe(ans_1)
-    //     // let result_1={
-    //     //     scoreGenerate:'1'
-    //     // }
-    //     // let permissionResult_1={
-    //     //     active_flag:'1'
-    //     // };
-    //     // var ans_2=util.getStaffPermission(1,result_1,permissionResult_1);
-    //     // expect(util.getStaffPermission(1,result_1,permissionResult_1)).toBe(ans_2)
-    //     // done();
-    // })
     it('isExistsWhere method',(done)=>{
        var spy=spyOn(sequelize,'query')
         let where_obj={

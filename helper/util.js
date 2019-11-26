@@ -1,5 +1,5 @@
 const enumConst = require('../helper/enum')
-//const server = require('../server')
+// const server = require('../server')
 const {sequelize} = require('../sequelize')
 
 
@@ -104,21 +104,21 @@ exports.isExists=(schmea,col_name_text,col_value,cb)=>{
         cb(false, [])
       });
 }
- /*
-exports.portDecider = ()=>{
-   var be_port = server.port
-   var fe_port;
-   switch (be_port) {
-       case 8080:
-           fe_port = ":"+4200
-           break;z
-       case 8081:
-           fe_port = ''
-           break;
-       case 8082:
-           fe_port = ":"+4300
-           break;
-   }
-   return fe_port;
-}*/
+ 
+// exports.portDecider = ()=>{
+//    var be_port = server.port
+//    var fe_port;
+//    switch (be_port) {
+//        case 8080:
+//            fe_port = ":"+4200
+//            break;z
+//        case 8081:
+//            fe_port = ''
+//            break;
+//        case 8082:
+//            fe_port = ":"+4300
+//            break;
+//    }
+//    return fe_port;
+// }
 

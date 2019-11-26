@@ -418,7 +418,8 @@ describe('Hospital Controller', () => {
                 hospital_name: "test",
             },
             email_address:"test@mail.com",
-            user_name:"test123"
+            user_name:"test123",
+            find:()=>{}
         }])
 
         spy.andReturn(result)

@@ -12,7 +12,9 @@ describe('UserController test',()=>{
         var spy = spyOn(pReadingModels.user_model, 'findOne')
         var req = {
             body: {
-                passcode: 12345
+                passcode: 12345,
+                password:"test123",
+                active_flag:1
             },
         }
       
@@ -20,12 +22,16 @@ describe('UserController test',()=>{
             json: () => { }
         }
 
-        var result = Promise.resolve({})
+        var result = Promise.resolve([{
+            "password":"test123",
+             save: () => { }
+
+        }])
 
         spy.andReturn(result)
         userController.resetPassword(req, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[0].password).toBe(req.body.password)
             
         })
         done();

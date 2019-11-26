@@ -1271,9 +1271,6 @@ describe('PatientController', () => {
                 start: 0,
                 end: 1
             },
-            query: {
-                searchText: "test"
-            }
         }
 
         var res = {
@@ -1299,39 +1296,35 @@ describe('PatientController', () => {
         done()
     });
 
-    // // it('patientSignup method',(done)=>{
-    // //     //var schema=pReadingModels.user_model;
-    // //  //   var spy=spyOn(schema,'findOne');
-    // //     var reqData = {
-    // //         body: {
-    // //             patient_first_name: "test",
-    // //             patient_last_name: "test",
-    // //             phone: "test",
-    // //             city: "test",
-    // //             state: "test",
-    // //             country: "test",
-    // //         },
-    // //     }
-    // //     let rules = {
-    // //         patient_first_name: 'required',
-    // //         patient_last_name: 'required',
-    // //         phone: 'required',
-    // //         city: 'required',
-    // //         state: 'required',
-    // //         country: 'required'
-    // //       };
+    // it('patientSignup method',(done)=>{
+    //     var reqData = {
+    //         body: {
+    //             patient_first_name: "test",
+    //             patient_last_name: "test",
+    //             phone: "test",
+    //             city: "test",
+    //             state: "test",
+    //             country: "test",
+    //         },
+    //     }
+    //     let rules = {
+    //         patient_first_name: 'required',
+    //         patient_last_name: 'required',
+    //         phone: 'required',
+    //         city: 'required',
+    //         state: 'required',
+    //         country: 'required'
+    //       };
 
-    // //     var res = {
-    // //         json: () => {  },
+    //     var res = {
+    //         json: () => {  },
 
-    // //     }
-    // //    // console.log(res.status.);
-    // //   //  var resSpy = spyOn(res,'json')
-    // //       let validation = new Validator(reqData, rules);
-    // //        patientController.patientSignup(reqData,res,{});
-    // //     done();
+    //     }
+    //       let validation = new Validator(reqData, rules);
+    //        patientController.patientSignup(reqData,res,{});
+    //     done();
 
-    // // })
+    // })
 
 
     // // it('BabyCvAdd method', (done) => {
