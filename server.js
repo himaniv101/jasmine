@@ -14,7 +14,7 @@ const proutes = require('./routes/patientRoutes')
 const hroutes = require('./routes/hospitalRoutes')
 const hbroutes = require('./routes/hospitalBranchRoutes')
 const hsroutes = require('./routes/hospitalStaffRoutes')
-const usroutes = require('./routes/userRoutes')
+// const usroutes = require('./routes/userRoutes')
 
 console.error(process.env.API_PORT)
 const API_PORT = process.env.API_PORT || 8081;
@@ -34,7 +34,7 @@ app.use('/patient',proutes)
 app.use('/hospital',hroutes)
 app.use('/hospitalBranch',hbroutes)
 app.use('/hospitalStaff',hsroutes)
-app.use('/',usroutes)
+// app.use('/',usroutes)
 
 
 // require('./routes/loginUser')(app);
