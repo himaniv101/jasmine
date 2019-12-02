@@ -105,20 +105,21 @@ exports.isExists=(schmea,col_name_text,col_value,cb)=>{
       });
 }
  
-// exports.portDecider = ()=>{
+exports.portDecider = ()=>{
+   var be_port = 8081
 //    var be_port = server.port
-//    var fe_port;
-//    switch (be_port) {
-//        case 8080:
-//            fe_port = ":"+4200
-//            break;z
-//        case 8081:
-//            fe_port = ''
-//            break;
-//        case 8082:
-//            fe_port = ":"+4300
-//            break;
-//    }
-//    return fe_port;
-// }
+   var fe_port;
+   switch (be_port) {
+       case 8080:
+           fe_port = ":"+4200
+           break;z
+       case 8081:
+           fe_port = ''
+           break;
+       case 8082:
+           fe_port = ":"+4300
+           break;
+   }
+   return fe_port;
+}
 

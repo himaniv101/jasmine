@@ -72,14 +72,18 @@ describe('hospitalBranchController', () => {
 
     });
 
+    
     it("registerHospitalBranch test", (done) => {
         var spy = spyOn(pReadingModels.user_model, 'findAll')
         var spy1 = spyOn(pReadingModels.user_model, 'create')
+        var spy2 = spyOn(pReadingModels.hospital_branch_model, 'create')
+        var spy3 = spyOn(pReadingModels.speciality_model, 'findAll')
 
         var req = {
             body: {
                 name: "test",
-                user_name:"testuser"
+                user_name:"testuser",
+                contact_number:'test'
             },
             params: {
                 hospitalId: 92,
@@ -93,36 +97,63 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        var result = Promise.resolve([{
-            "test": "test",
-            m_hospitals_branch: {
-                branch_name: "test"
+        // var result = Promise.resolve([{
+        //     "test": "test",
+        //     m_hospitals_branch: {
+        //         branch_name: "test"
+        //     }
+        // }])
+
+        var result = Promise.resolve([
+            {
+                contact_number:1234567890,
+                m_hospitals_branch: {branch_name:"test"},
+                user_name:"test"
             }
-        }])
+        ])
+
+        // var result = [
+        //     {
+        //         contact_number:1234567890,
+        //         m_hospitals_branch: {branch_name:"test"},
+        //         user_name:"test"
+        //     }
+        // ]
 
         spy.andReturn(result)
         hospitalBranchController.registerHospitalBranch(req, res, {})
         spy.plan().then((data) => {
-            expect(data[0].test).toBe("test")
+            expect(data[0].user_name).toBe("test")
             done()
         })
+        
 
-        var result2 = Promise.resolve({
-            "test": "test"
-        })
-
+        var result2 = Promise.resolve([])
+        var resSpy = Promise.resolve([])
+        var resSpy2 = Promise.resolve([])
+        var resSpy3 = Promise.resolve([])
         spy.andReturn(result2)
+        spy1.andReturn(resSpy)
+        spy2.andReturn(resSpy2)
+        spy3.andReturn(resSpy3)
         hospitalBranchController.registerHospitalBranch(req, res, {})
         spy.plan().then((data) => {
-            expect(data.test).toBe("test")
+            expect(data.length).toBe(0)
+            spy1.plan().then((data) => {
+                expect(data.length).toBe(0)
+                spy2.plan().then((data) => {
+                    expect(data.length).toBe(0)
+                    spy3.plan().then((data) => {
+                        expect(data.length).toBe(0)
+                        done()
+                    })
+                    done()
+                })
+                done()
+            })
             done()
         })
-        spy1.andReturn(result3)
-        var result3=Promise.resolve();
-        spy.andReturn(result3)
-        spy.plan().then((data)=>{
-            expect(spy1.wasCalled).toBe(true)
-        })
+        
     });
 
     it("getHospitalBranches test", (done) => {
@@ -174,6 +205,7 @@ describe('hospitalBranchController', () => {
     it("addRole test", (done) => {
         var spy = spyOn(pReadingModels.role_model, 'findAll')
         var spy1=spyOn(pReadingModels.hospital_branch_roles_model,'findAll')
+        var spy2=spyOn(pReadingModels.role_model,'create')
         var req = {
             body: {
                 name: "test"
@@ -204,6 +236,15 @@ describe('hospitalBranchController', () => {
         spy.plan().then((data) => {
             expect(data.length).toBe(0)
             expect(spy1.wasCalled).toBe(true)
+            done()
+        })
+
+        var result3 = Promise.resolve([])
+        spy2.andReturn(result3)
+        hospitalBranchController.addRole(req, res, {})
+        spy.plan().then((data) => {
+            expect(data.length).toBe(0)
+            // expect(spy1.wasCalled).toBe(true)
             done()
         })
 
@@ -250,6 +291,7 @@ describe('hospitalBranchController', () => {
     it("addSpeciality test", (done) => {
         var spy = spyOn(pReadingModels.speciality_model, 'findAll')
         var spy1=spyOn(pReadingModels.hospital_branch_speciality_model,'findAll')
+        var spy2=spyOn(pReadingModels.speciality_model,'create')
 
         var req = {
             body: {
@@ -270,7 +312,7 @@ describe('hospitalBranchController', () => {
                    return Promise.resolve("test")
                  }
         }])
-        var result3=Promise.resolve('test')
+        var result3=Promise.resolve([])
         spy.andReturn(result)
         spy1.andReturn(result3)
         
@@ -282,9 +324,13 @@ describe('hospitalBranchController', () => {
         })
 
         var result2 = Promise.resolve([])
+        var resultSpy = Promise.resolve(["test"])
+
         spy.andReturn(result2)
+        spy2.andReturn(resultSpy)
         hospitalBranchController.addSpeciality(req, res, {})
         spy.plan().then((data) => {
+            expect(spy2.wasCalled).toBe(true)
             expect(data.length).toBe(0)
             done()
         })
@@ -422,9 +468,12 @@ describe('hospitalBranchController', () => {
     it("updateHopitalBranchProfile test", (done) => {
         var spy = spyOn(pReadingModels.hospital_branch_model, 'findByPk')
         var spy2 = spyOn(pReadingModels.user_model, 'findByPk')
+        var spy3 = spyOn(pReadingModels.user_model, 'findAll')
+
         var req = {
             body: {
-                name: "test"
+                name: "test",
+                userName:'test'
             },
             params: {
                 hospitalId: 92,
@@ -451,12 +500,16 @@ describe('hospitalBranchController', () => {
             }
         })
 
+        var resSpy = Promise.resolve([])
+        
+
         spy.andReturn(result)
         spy2.andReturn(result2)
-
+        spy3.andReturn(resSpy)
         hospitalBranchController.updateHopitalBranchProfile(req, res, {})
 
         spy.plan().then((data) => {
+            
             data.save().then((dt) => {
                 expect(dt).toBe("test")
             })
@@ -467,6 +520,17 @@ describe('hospitalBranchController', () => {
             
             done()
         })
+        
+
+        // var resSpy2 = Promise.resolve([])
+        // hospitalBranchController.updateHopitalBranchProfile(req, res, {})
+        // spy3.andReturn(resSpy2)
+        // spy2.plan().then((data)=>{
+        //     expect(data.user_id).toBe(123)
+            
+        //     done()
+        // })
+        
 
     });
 

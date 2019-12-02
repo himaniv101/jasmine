@@ -186,6 +186,9 @@ describe('Hospital Controller', () => {
             body: {
                 name: "test1"
             },
+            params:{
+                hospitalId:12
+            },
             query: {
                 userType: 'Hospital',
                 hospitalBranchId:"null"
@@ -195,42 +198,22 @@ describe('Hospital Controller', () => {
         var res = {
             json: () => { }
         }
-        var result = Promise.resolve("test")
+        var result = Promise.resolve(["test"])
 
         spy.andReturn(Promise.resolve(result))
         hospitalController.getDashBoardDetail(req, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[0]).toBe("test")
             done();
         })
-        var result1 = Promise.resolve("test")
+
+        var result1 = Promise.resolve(["test"])
 
         spy.andReturn(Promise.resolve(result1))
         hospitalController.getDashBoardDetail(req1, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data[0]).toBe("test")
             done();
-        })
-        var result = Promise.resolve({
-            length: () => {
-                return Promise.resolve("test")
-            }
-        })
-        spy_one.andReturn(Promise.resolve(result1))
-        hospitalController.getDashBoardDetail(req, res, {})
-        spy_one.plan().then((data) => {
-            data.length().then((dt) => {
-                expect(dt).toBe("test")
-                done()
-            })
-        })
-        spy_one.andReturn(Promise.resolve(result1))
-        hospitalController.getDashBoardDetail(req, res, {})
-        spy_one.plan().then((data) => {
-            data.length().then((dt) => {
-                expect(dt).toBe("test")
-                done()
-            })
         })
       
     });
@@ -394,6 +377,7 @@ describe('Hospital Controller', () => {
     it("hospitalSignUp test", (done) => {
         var spy = spyOn(pReadingModels.user_model, 'findAll')
         var spy1=spyOn(pReadingModels.user_role_model,'create')
+        var spy2=spyOn(pReadingModels.user_model,'create')
         var req = {
             body: {
                 name: "test",
@@ -414,9 +398,9 @@ describe('Hospital Controller', () => {
         }
         var result = Promise.resolve([{
             "test": "test",
-            m_hospitals: {
+            m_hospitals: [{
                 hospital_name: "test",
-            },
+            }],
             email_address:"test@mail.com",
             user_name:"test123",
             find:()=>{}
@@ -429,23 +413,28 @@ describe('Hospital Controller', () => {
             done()
         })
 
-        var result2 = Promise.resolve({
-            "test": "test"
-        })
+        var result2 = Promise.resolve([])
+        var resSpy = Promise.resolve(["test"])
 
         spy.andReturn(result2)
-        spy1.andReturn(result2)
+        spy2.andReturn(resSpy)
+        spy1.andReturn(resSpy)
 
         hospitalController.hospitalSignUp(req, res, {})
         spy.plan().then((data) => {
-            expect(data.test).toBe("test")
+            expect(data.length).toBe(0)
+            done()
+        })
+        spy2.plan().then((data) => {
+            expect(data[0]).toBe("test")
             done()
         })
         spy1.plan().then((data) => {
-            expect(data.test).toBe("test")
+            expect(data[0]).toBe("test")
             done()
         })
     });
+
     it("updateHospitalProfile test", (done) => {
         var spy = spyOn(pReadingModels.user_model, 'findAll')
         var spy2 = spyOn(pReadingModels.hospital_model, 'findOne')
@@ -465,16 +454,42 @@ describe('Hospital Controller', () => {
         var res = {
             json: () => { }
         }
-        var result = Promise.resolve({
+        var result = Promise.resolve([{
             save: () => {
                 return Promise.resolve("test")
             },
-            m_hospitals: {
+            m_hospitals: [{
                 hospital_name: "test",
-            },
+            }],
             email_address:"test@mail.com",
             user_name:"test123"
+        }])
+
+        var result2 = Promise.resolve({
+            user_id:123,
+            save: () => {
+                return Promise.resolve("test")
+            },
         })
+
+        spy.andReturn(result)
+        spy2.andReturn(result2)
+
+        hospitalController.updateHospitalProfile(req, res, {})
+
+        spy.plan().then((data) => {
+            data.save().then((dt) => {
+                expect(dt).toBe("test")
+            })
+            done()
+        })
+        spy2.plan().then((data)=>{
+            expect(data.user_id).toBe(123)
+            done()
+        })
+
+
+        var result = Promise.resolve([])
 
         var result2 = Promise.resolve({
             user_id:123,
@@ -500,34 +515,6 @@ describe('Hospital Controller', () => {
         })
 
     });
-   
-    // // it('addRole function', (done) => {
-    // //     var spy = spyOn(sequelize, 'query');
-    // //    // var spy1=spyOn(mapper,'hospitalRoleMapper')
-    // //     var req = {
-    // //         body: {
-    // //             name: "test"
-    // //         },
-    // //     }
-
-    // //     var res = {
-    // //         json: () => { }
-    // //     }
-    // //     var result = Promise.resolve("test")
-
-    // //     spy.andReturn(Promise.resolve(result))
-    // //     hospitalController.addRole(req, res, {})
-    // //     spy.plan().then((data) => {
-    // //         expect(data).toBe("test")
-    // //         done()
-    // //     })
-    // // });
-
-
-   
-
-   
-   
   
    
 })

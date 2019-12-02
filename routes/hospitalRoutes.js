@@ -4,7 +4,7 @@ const hrouter = express.Router()
 
 hrouter.post('/signUp', hospitalController.hospitalSignUp)
 
-hrouter.post('/role/:hospitalId',hospitalController.addRole)
+// hrouter.post('/role/:hospitalId',hospitalController.addRole)
 
 hrouter.get('/hospitalProfile/:hospitalId',hospitalController.getHospitalProfile)
 

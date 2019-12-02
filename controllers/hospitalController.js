@@ -106,20 +106,20 @@ exports.hospitalSignUp = (req,res,next)=>{
     res.json(responseHelper.serveError(constant.error_msg,err))})
 }
 
-exports.addRole= (req,res,next)=>{
+// exports.addRole= (req,res,next)=>{
 
-    var roles ={}
-    roles= mapper.hospitalRoleMapper(roles,req)
+//     var roles ={}
+//     roles= mapper.hospitalRoleMapper(roles,req)
 
-    pReadingModels.role_model.create(roles).then(result=>{
-        if(!result.isEmpty){
-            res.json( responseHelper.success(constant.role_add_successfully,result))
-        }
-    }).catch(err=>{
-         res.json(responseHelper.serveError(constant.error_msg,err))
-    })
+//     pReadingModels.role_model.create(roles).then(result=>{
+//         if(!result.isEmpty){
+//             res.json( responseHelper.success(constant.role_add_successfully,result))
+//         }
+//     }).catch(err=>{
+//          res.json(responseHelper.serveError(constant.error_msg,err))
+//     })
 
-}
+// }
 
 exports.getHospitalProfile = (req, res, next)=>{
     
