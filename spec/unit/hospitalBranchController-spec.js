@@ -268,19 +268,22 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        var result = Promise.resolve("test")
+        var result2 = Promise.resolve({
+            test:"test",
+            save:()=>{}
+        })
 
-        spy.andReturn(result)
-        spy1.andReturn(result)
-        spy2.andReturn(result)
+        spy.andReturn(result2)
+        spy1.andReturn(result2)
+        spy2.andReturn(result2)
 
         hospitalBranchController.updateHospitalBrancheRoles(req, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data.test).toBe("test")
             done()
         })
         spy1.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data.test).toBe("test")
             expect(spy2.wasCalled).toBe(true);
             done()
         })
@@ -423,19 +426,22 @@ describe('hospitalBranchController', () => {
         var res = {
             json: () => { }
         }
-        var result = Promise.resolve("test")
+        var result = Promise.resolve({
+            "test":"test",
+            save:()=>{}
+        })
         spy.andReturn(result)
         spy1.andReturn(result)
         spy2.andReturn(result)
 
         hospitalBranchController.updateHospitalBrancheSpecialities(req, res, {})
         spy.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data.test).toBe("test")
             done()
         })
         spy1.plan().then((data) => {
-            expect(data).toBe("test")
-            expect(spy3.wasCalled).toBe(true)
+            expect(data.test).toBe("test")
+            expect(spy2.wasCalled).toBe(true)
             done()
         })
     });

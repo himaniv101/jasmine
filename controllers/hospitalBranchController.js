@@ -147,8 +147,6 @@ exports.registerHospitalBranch = (req, res, next) => {
         // });
 
     }).catch(err => {
-        console.log(err);
-
         res.json(responseHelper.serveError(constant.error_msg, err))
     })
 }

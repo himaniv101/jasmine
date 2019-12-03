@@ -1475,7 +1475,7 @@ exports.acceptRequest = (req,res,next)=>{
         result[0].save()
     })
     .then(result=>{
-      alert("Status updated successfully !")
+    //   alert("Status updated successfully !")
       res.send();
      //res.json( responseHelper.success(constant.status_update,result))
     })
