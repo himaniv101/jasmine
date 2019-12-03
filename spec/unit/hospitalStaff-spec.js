@@ -108,7 +108,11 @@ describe('Hospital Staff Controlloer', () => {
             body: {
                 contactNumber: 1234567890,
                 username: "test",
-                email: "test@mail.com"
+                email: "test@mail.com",
+                branch:["test"]
+            },
+            params:{
+                hospitalId:123
             }
         }
         var res = {

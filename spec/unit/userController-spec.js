@@ -39,7 +39,6 @@ describe('UserController test',()=>{
         spy.andReturn(result)
         userController.resetPassword(req, res, {})
         spy.plan().then((data) => {
-            console.log(data);
             expect(data.password).toBe(req.body.password)
             done();
         })

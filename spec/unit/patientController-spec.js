@@ -34,7 +34,10 @@ describe('PatientController', () => {
                 return Promise.resolve("test")
             }
         }])
-        var result2 = Promise.resolve("test")
+        var result2 = Promise.resolve({
+            test:"test",
+            save:()=>{}
+        })
 
         spy.andReturn(result)
         spy2.andReturn(result2)
@@ -46,7 +49,7 @@ describe('PatientController', () => {
             })
         })
         spy2.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data.test).toBe("test")
             done()
 
         })
@@ -79,7 +82,12 @@ describe('PatientController', () => {
                 return Promise.resolve("test")
             }
         }])
-        var result2 = Promise.resolve("test")
+        var result2 = Promise.resolve({
+            "test":"test",
+            save: () => {
+                return Promise.resolve('test')
+            }
+        })
 
         spy.andReturn(result)
         spy2.andReturn(result2)
@@ -91,7 +99,7 @@ describe('PatientController', () => {
             })
         })
         spy2.plan().then((data) => {
-            expect(data).toBe("test")
+            expect(data.test).toBe("test")
             done()
         })
     });
@@ -127,6 +135,8 @@ describe('PatientController', () => {
         var result = Promise.resolve(Promise.resolve("test"))
         var result2 = Promise.resolve({
             "updated_by": 555,
+            "save":()=>{
+            }
         })
 
         spy.andReturn(result2)
